@@ -4,6 +4,7 @@ import { GlobalStyle } from "../styles/globals";
 import { theme } from "../styles/theme";
 import { ThemeProvider } from "styled-components";
 import { Sidebar } from "../components/Sidebar";
+import "../components/Sidebar/styles.css";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
