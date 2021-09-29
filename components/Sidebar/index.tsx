@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
+import { Context } from "../../pages/_app";
 
 export const Sidebar = (): JSX.Element => {
-  const [sidebar, setSidebar] = useState(false);
+  const { isUserLogged, isSidebarOpen, setIsSidebarOpen } = useContext(Context);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const showSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
     <React.Fragment>
@@ -14,8 +15,28 @@ export const Sidebar = (): JSX.Element => {
         <div className="menu-bars">
           <FaIcons.FaBars onClick={showSidebar} />
         </div>
+        <div className="login-menu">
+          {!isUserLogged ? (
+            <React.Fragment>
+              <div className="sign-up">
+                <Link href="/sign-up">
+                  <a>Sign Up</a>
+                </Link>
+              </div>
+              <div className="sign-in">
+                <Link href="/sign-in">
+                  <a>Sign In</a>
+                </Link>
+              </div>
+            </React.Fragment>
+          ) : (
+            <div className="">
+              <FaIcons.FaUser />
+            </div>
+          )}
+        </div>
       </div>
-      <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
+      <nav className={isSidebarOpen ? "nav-menu active" : "nav-menu"}>
         <ul className="nav-menu-items" onClick={showSidebar}>
           <li className="navbar-toggle">
             <div className="menu-bars">
