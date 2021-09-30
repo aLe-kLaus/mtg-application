@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Context } from "../../pages/_app";
+import { Container } from "./styles";
 
 export const Sidebar = (): JSX.Element => {
   const { isUserLogged, isSidebarOpen, setIsSidebarOpen } = useContext(Context);
@@ -10,7 +11,7 @@ export const Sidebar = (): JSX.Element => {
   const showSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <React.Fragment>
+    <Container>
       <div className="navbar">
         <div className="menu-bars">
           <FaIcons.FaBars onClick={showSidebar} />
@@ -55,6 +56,6 @@ export const Sidebar = (): JSX.Element => {
           </li>
         </ul>
       </nav>
-    </React.Fragment>
+    </Container>
   );
 };
