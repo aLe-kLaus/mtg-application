@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
 
   input {
-    width: 100%px;
+    width: 100%;
     height: 50px;
     border: 1px solid ${(props) => props.theme.colors.black};
     outline: 0px;
