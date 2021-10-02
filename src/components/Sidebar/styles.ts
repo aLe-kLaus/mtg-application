@@ -20,7 +20,7 @@ export const Container = styled.div`
   .sign-up {
     width: 100px;
     height: 45px;
-    background-color: ${(props) => props.theme.colors.purple};
+    background-color: ${(props) => props.theme.colors.gray};
     display: flex;
     align-items: center;
     border-radius: 4px;
@@ -30,7 +30,7 @@ export const Container = styled.div`
 
   .sign-up a {
     text-decoration: none;
-    color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.black};
     font-size: 18px;
   }
 
@@ -45,7 +45,7 @@ export const Container = styled.div`
 
   .sign-in a {
     text-decoration: none;
-    color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.gray};
     font-size: 18px;
   }
 
@@ -97,7 +97,8 @@ export const Container = styled.div`
   }
 
   .nav-text a:hover {
-    background-color: ${(props) => props.theme.colors.purple};
+    background-color: ${(props) => props.theme.colors.gray};
+    color: ${(props) => props.theme.colors.black};
   }
 
   .nav-menu-items {

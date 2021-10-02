@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: calc(100vh - 80px);
-  transition: 350ms ease-in;
+  transition: padding-left 350ms ease-in;
 
   @media (max-width: 1024px) {
     padding-left: 0px !important;

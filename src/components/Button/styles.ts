@@ -14,7 +14,7 @@ export const Container = styled.div`
 
     :hover {
       transition: 200ms ease-in;
-      background-color: ${(props) => props.theme.colors.purple};
+      background-color: ${(props) => props.theme.colors.gray};
     }
   }
 `;

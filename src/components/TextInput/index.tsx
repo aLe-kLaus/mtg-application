@@ -6,7 +6,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-export const Input = ({ label, name, ...props }: InputProps): JSX.Element => {
+export const TextInput = ({
+  label,
+  name,
+  ...props
+}: InputProps): JSX.Element => {
   return (
     <Container>
       <label htmlFor={name}>{label}</label>
