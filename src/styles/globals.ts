@@ -9,5 +9,26 @@ export const GlobalStyle = createGlobalStyle`
 }
 body {
   background-color: #d6d6d6;
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 4px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
 `;

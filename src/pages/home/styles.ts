@@ -3,23 +3,24 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: calc(100vh - 80px);
+  width: 100%;
   transition: padding-left 350ms ease-in;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1400px) {
     padding-left: 0px !important;
   }
 `;
 
 export const Header = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: flex-end;
   width: 80%;
-  height: 200px;
-  margin: 10px auto;
+  height: 210px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 30px;
+  margin-top: 20px;
   background-color: ${(props) => props.theme.colors.black};
   border: 2px solid ${(props) => props.theme.colors.white};
   border-radius: 12px;
@@ -27,18 +28,13 @@ export const Header = styled.div`
   @media (max-width: 1300px) {
     width: 95%;
   }
-
-  @media (max-width: 800px) {
-    #wrapper {
-      display: none;
-    }
-  }
 `;
 
 export const Profile = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: -30px;
+  position: relative;
 
   div {
     display: flex;
@@ -62,6 +58,11 @@ export const Profile = styled.div`
     height: 175px;
     border-radius: 50%;
     border: 2px solid ${(props) => props.theme.colors.white};
+
+    @media (max-width: 1024px) {
+      width: 150px;
+      height: 150px;
+    }
 
     @media (max-width: 515px) {
       width: 120px;
@@ -94,6 +95,9 @@ export const Interests = styled.div`
   flex-direction: column;
 
   p {
+    margin-top: 10px;
+    text-align: justify;
+
     @media (max-width: 515px) {
       font-size: 14px;
     }
@@ -107,6 +111,7 @@ export const FavoriteCards = styled.div`
   margin: 0 auto;
 
   div {
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
   }
@@ -154,15 +159,49 @@ export const CardImage = styled.img`
   }
 
   @media (max-width: 515px) {
-    width: 65px;
-    height: 105px;
+    width: 90px;
+    height: 130px;
+    margin-left: -40px;
+    border-radius: 4px;
+
+    :hover {
+      width: 110px;
+      height: 155px;
+      z-index: 100 !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    width: 72px;
+    height: 110px;
     margin-left: -30px;
     border-radius: 4px;
 
     :hover {
-      width: 85px;
-      height: 130px;
+      width: 90px;
+      height: 135px;
       z-index: 100 !important;
     }
   }
+`;
+
+export const TradeCards = styled.div`
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1300px) {
+    width: 85%;
+  }
+`;
+
+export const ListCard = styled.ul`
+  list-style-type: disc;
 `;

@@ -8,6 +8,8 @@ import {
   Profile,
   UserDescription,
   Interests,
+  TradeCards,
+  ListCard,
 } from "./styles";
 import cardsServices from "../../services/cardsServices";
 import { Title } from "../../components/Title";
@@ -44,7 +46,6 @@ const Home = (props: any): JSX.Element => {
   return (
     <Container style={{ paddingLeft }}>
       <Header>
-        <div id="wrapper" />
         <Profile>
           <div>
             <Title title="Alessom Klaus" color="#FFFFFF" />
@@ -60,7 +61,11 @@ const Home = (props: any): JSX.Element => {
           <div>
             {favoriteCards
               ?.sort((a, b) =>
-                a?.name !== b?.name ? (a?.name < b?.name ? -1 : 1) : 0
+                a?.name.toLowerCase() !== b?.name.toLowerCase()
+                  ? a?.name.toLowerCase() < b?.name.toLowerCase()
+                    ? -1
+                    : 1
+                  : 0
               )
               .map((card, index) => {
                 return (
@@ -94,6 +99,22 @@ const Home = (props: any): JSX.Element => {
           </p>
         </Interests>
       </UserDescription>
+      <TradeCards>
+        <Title title="Cards To Trade/Sell" color="#000000" />
+        <ListCard>
+          {props?.cardsToTrade
+            ?.sort((a: string, b: string) =>
+              a.toLowerCase() !== b.toLowerCase()
+                ? a.toLowerCase() < b.toLowerCase()
+                  ? -1
+                  : 1
+                : 0
+            )
+            .map((card: string, index: number) => {
+              return <li key={index}>{card}</li>;
+            })}
+        </ListCard>
+      </TradeCards>
     </Container>
   );
 };
@@ -105,11 +126,20 @@ Home.getInitialProps = async () => {
     "Mox Diamond",
     "Cerulean Drake",
     "Drakuseth, Maw of Flames",
-    "dawdawda",
+    "Alalla",
+  ];
+  const cardsToTrade = [
+    "Black Lotus",
+    "Lightning Bolt",
+    "Mox Diamond",
+    "Cerulean Drake",
+    "Drakuseth, Maw of Flames",
+    "Alalalala",
   ];
 
   return {
     favoriteCardsFromApi,
+    cardsToTrade,
   };
 };
 
