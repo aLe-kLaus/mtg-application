@@ -28,6 +28,10 @@ export const Header = styled.div`
   @media (max-width: 1300px) {
     width: 95%;
   }
+
+  @media (max-width: 515px) {
+    height: 140px;
+  }
 `;
 
 export const Profile = styled.div`
@@ -58,11 +62,6 @@ export const Profile = styled.div`
     height: 175px;
     border-radius: 50%;
     border: 2px solid ${(props) => props.theme.colors.white};
-
-    @media (max-width: 1024px) {
-      width: 150px;
-      height: 150px;
-    }
 
     @media (max-width: 515px) {
       width: 120px;

@@ -16,7 +16,7 @@ const SignIn = (): JSX.Element => {
         <TextInput label="Password" name="password" type="password" />
         <Button label="Login" name="login" />
         <p>
-          Already have a account? <Link href="/sign-up">Sign Up here!</Link>
+          Do not have an account? <Link href="/sign-up">Sign Up here!</Link>
         </p>
       </Form>
     </Container>

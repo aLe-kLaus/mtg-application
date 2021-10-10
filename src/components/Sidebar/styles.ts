@@ -27,12 +27,22 @@ export const Container = styled.div`
     border-radius: 4px;
     justify-content: center;
     cursor: pointer;
-  }
+    transition: 200ms ease-in;
 
-  .sign-up a {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.black};
-    font-size: 18px;
+    a {
+      text-decoration: none;
+      color: ${(props) => props.theme.colors.black};
+      font-size: 18px;
+    }
+
+    :hover {
+      background-color: ${(props) => props.theme.colors.purple};
+
+      a {
+        transition: 200ms ease-in;
+        color: ${(props) => props.theme.colors.white};
+      }
+    }
   }
 
   .sign-in {
@@ -42,12 +52,17 @@ export const Container = styled.div`
     border-radius: 4px;
     justify-content: center;
     cursor: pointer;
-  }
 
-  .sign-in a {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.gray};
-    font-size: 18px;
+    a {
+      text-decoration: none;
+      color: ${(props) => props.theme.colors.gray};
+      font-size: 18px;
+      transition: 200ms ease-in;
+
+      :hover {
+        color: ${(props) => props.theme.colors.purple};
+      }
+    }
   }
 
   .menu-bars {
@@ -57,6 +72,11 @@ export const Container = styled.div`
     cursor: pointer;
     color: ${(props) => props.theme.colors.white};
     z-index: 1000;
+    transition: 200ms ease-in;
+
+    :hover {
+      color: ${(props) => props.theme.colors.purple};
+    }
   }
 
   .nav-menu {
@@ -98,11 +118,16 @@ export const Container = styled.div`
     padding: 0 16px;
     border-radius: 4px;
     padding-left: 16px;
-  }
+    transition: 200ms ease-in;
 
-  .nav-text a:hover {
-    background-color: ${(props) => props.theme.colors.gray};
-    color: ${(props) => props.theme.colors.black};
+    :hover {
+      background-color: ${(props) => props.theme.colors.purple};
+
+      a {
+        transition: 200ms ease-in;
+        color: ${(props) => props.theme.colors.white};
+      }
+    }
   }
 
   .nav-menu-items {
