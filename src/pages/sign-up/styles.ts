@@ -18,7 +18,15 @@ export const Form = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 700px;
-  height: 300px;
+  width: 900px;
+  height: 500px;
   padding: 10px;
+`;
+
+export const SideBySide = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 `;

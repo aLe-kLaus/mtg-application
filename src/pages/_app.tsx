@@ -1,7 +1,7 @@
 import React, {
   createContext,
   SetStateAction,
-  useContext,
+  useEffect,
   useState,
 } from "react";
 import type { AppProps } from "next/app";
@@ -15,6 +15,7 @@ type ContextProps = {
   setIsUserLogged: React.Dispatch<SetStateAction<boolean>>;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
+  paddingLeft: string;
 };
 
 const defaultContextValues = {
@@ -22,6 +23,7 @@ const defaultContextValues = {
   setIsUserLogged: () => Boolean,
   isSidebarOpen: false,
   setIsSidebarOpen: () => Boolean,
+  paddingLeft: "0px",
 };
 
 export const Context = createContext<ContextProps>(defaultContextValues);
@@ -33,6 +35,15 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     defaultContextValues.isSidebarOpen
   );
+  const paddingLeft = isSidebarOpen ? "250px" : "0px";
+
+  useEffect(() => {
+    document.addEventListener("mousedown", (evt: any) => {
+      if (!evt.target.classList.contains("sidebar-close")) {
+        setIsSidebarOpen(false);
+      }
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -42,6 +53,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           setIsUserLogged,
           isSidebarOpen,
           setIsSidebarOpen,
+          paddingLeft,
         }}
       >
         <GlobalStyle />

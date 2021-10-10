@@ -7,6 +7,7 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1000;
   }
 
   .login-menu {
@@ -20,18 +21,28 @@ export const Container = styled.div`
   .sign-up {
     width: 100px;
     height: 45px;
-    background-color: ${(props) => props.theme.colors.purple};
+    background-color: ${(props) => props.theme.colors.gray};
     display: flex;
     align-items: center;
     border-radius: 4px;
     justify-content: center;
     cursor: pointer;
-  }
+    transition: 200ms ease-in;
 
-  .sign-up a {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.white};
-    font-size: 18px;
+    a {
+      text-decoration: none;
+      color: ${(props) => props.theme.colors.black};
+      font-size: 18px;
+    }
+
+    :hover {
+      background-color: ${(props) => props.theme.colors.purple};
+
+      a {
+        transition: 200ms ease-in;
+        color: ${(props) => props.theme.colors.white};
+      }
+    }
   }
 
   .sign-in {
@@ -41,12 +52,17 @@ export const Container = styled.div`
     border-radius: 4px;
     justify-content: center;
     cursor: pointer;
-  }
 
-  .sign-in a {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.white};
-    font-size: 18px;
+    a {
+      text-decoration: none;
+      color: ${(props) => props.theme.colors.gray};
+      font-size: 18px;
+      transition: 200ms ease-in;
+
+      :hover {
+        color: ${(props) => props.theme.colors.purple};
+      }
+    }
   }
 
   .menu-bars {
@@ -55,6 +71,12 @@ export const Container = styled.div`
     background: none;
     cursor: pointer;
     color: ${(props) => props.theme.colors.white};
+    z-index: 1000;
+    transition: 200ms ease-in;
+
+    :hover {
+      color: ${(props) => props.theme.colors.purple};
+    }
   }
 
   .nav-menu {
@@ -67,11 +89,13 @@ export const Container = styled.div`
     top: 0;
     left: -100%;
     transition: 1200ms;
+    z-index: 1000;
   }
 
   .nav-menu.active {
     left: 0;
     transition: 350ms;
+    z-index: 1000;
   }
 
   .nav-text {
@@ -94,10 +118,16 @@ export const Container = styled.div`
     padding: 0 16px;
     border-radius: 4px;
     padding-left: 16px;
-  }
+    transition: 200ms ease-in;
 
-  .nav-text a:hover {
-    background-color: ${(props) => props.theme.colors.purple};
+    :hover {
+      background-color: ${(props) => props.theme.colors.purple};
+
+      a {
+        transition: 200ms ease-in;
+        color: ${(props) => props.theme.colors.white};
+      }
+    }
   }
 
   .nav-menu-items {

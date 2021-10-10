@@ -13,7 +13,7 @@ export const Sidebar = (): JSX.Element => {
   return (
     <Container>
       <div className="navbar">
-        <div className="menu-bars">
+        <div className="menu-bars sidebar-close">
           <FaIcons.FaBars onClick={showSidebar} />
         </div>
         <div className="login-menu">
@@ -37,21 +37,27 @@ export const Sidebar = (): JSX.Element => {
           )}
         </div>
       </div>
-      <nav className={isSidebarOpen ? "nav-menu active" : "nav-menu"}>
-        <ul className="nav-menu-items" onClick={showSidebar}>
-          <li className="navbar-toggle">
-            <div className="menu-bars">
+      <nav
+        className={
+          isSidebarOpen
+            ? "nav-menu active sidebar-close"
+            : "nav-menu sidebar-close"
+        }
+      >
+        <ul className="nav-menu-items sidebar-close">
+          <li className="navbar-toggle sidebar-close">
+            <div className="menu-bars sidebar-close">
               <AiIcons.AiOutlineClose />
             </div>
           </li>
-          <li className="nav-text">
+          <li className="nav-text sidebar-close">
             <Link href="/home">
-              <a>Home</a>
+              <a className="sidebar-close">Home</a>
             </Link>
           </li>
-          <li className="nav-text">
-            <Link href="/search-card">
-              <a>Card Searcher</a>
+          <li className="nav-text sidebar-close">
+            <Link href="/card-searcher">
+              <a className="sidebar-close">Card Searcher</a>
             </Link>
           </li>
         </ul>
