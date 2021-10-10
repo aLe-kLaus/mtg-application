@@ -7,6 +7,7 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1000;
   }
 
   .login-menu {
@@ -55,6 +56,7 @@ export const Container = styled.div`
     background: none;
     cursor: pointer;
     color: ${(props) => props.theme.colors.white};
+    z-index: 1000;
   }
 
   .nav-menu {
@@ -67,11 +69,13 @@ export const Container = styled.div`
     top: 0;
     left: -100%;
     transition: 1200ms;
+    z-index: 1000;
   }
 
   .nav-menu.active {
     left: 0;
     transition: 350ms;
+    z-index: 1000;
   }
 
   .nav-text {

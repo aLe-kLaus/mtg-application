@@ -14,3 +14,8 @@ module.exports = {
     ];
   },
 };
+module.exports = {
+  images: {
+    domains: ["gatherer.wizards.com"],
+  },
+};
