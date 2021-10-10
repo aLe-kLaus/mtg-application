@@ -21,4 +21,13 @@ export const Form = styled.div`
   width: 700px;
   height: 300px;
   padding: 10px;
+
+  a {
+    color: ${(props) => props.theme.colors.black};
+    transition: 200ms ease-in;
+
+    :hover {
+      color: ${(props) => props.theme.colors.purple};
+    }
+  }
 `;
