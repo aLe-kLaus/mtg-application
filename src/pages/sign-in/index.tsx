@@ -6,7 +6,8 @@ import { Context } from "../_app";
 import { Container, Form } from "./styles";
 
 const SignIn = (): JSX.Element => {
-  const { paddingLeft } = useContext(Context);
+  const { isSidebarOpen } = useContext(Context);
+  const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
   return (
     <Container style={{ paddingLeft }}>
