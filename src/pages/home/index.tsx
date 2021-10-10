@@ -10,9 +10,11 @@ import {
   Interests,
   TradeCards,
   ListCard,
+  EditIcon,
 } from "./styles";
 import cardsServices from "../../services/cardsServices";
 import { Title } from "../../components/Title";
+import { FaEdit } from "react-icons/fa";
 
 type CardProps = {
   name: string;
@@ -54,6 +56,9 @@ const Home = (props: any): JSX.Element => {
           </div>
           <img src="https://i.kym-cdn.com/photos/images/original/001/842/159/61b.jpg" />
         </Profile>
+        <EditIcon>
+          <FaEdit />
+        </EditIcon>
       </Header>
       <UserDescription>
         <FavoriteCards>
