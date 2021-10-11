@@ -13,7 +13,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Form = styled.div`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,6 +25,25 @@ export const Form = styled.div`
   a {
     color: ${(props) => props.theme.colors.black};
     transition: 200ms ease-in;
+
+    :hover {
+      color: ${(props) => props.theme.colors.purple};
+    }
+  }
+`;
+
+export const PasswordContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  svg {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-left: -30px;
+    margin-bottom: -30px;
+    transition: 100ms ease-in;
 
     :hover {
       color: ${(props) => props.theme.colors.purple};
