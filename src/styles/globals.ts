@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   margin: 0;
 }
 body {
-  background-color: #f5f9ff;
+  background-color: #ffffff;
 
   /* width */
   ::-webkit-scrollbar {
