@@ -5,7 +5,6 @@ import * as yup from "yup";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "../../components/Button";
-import { Text } from "../../components/Inputs/Text";
 import { Context } from "../_app";
 import {
   Container,
@@ -109,7 +108,10 @@ const SignUp = () => {
     .shape({
       name: yup.string().required("Name is a required field"),
       lastName: yup.string().required("Last Name is a required field"),
-      email: yup.string().email().required("E-mail is a required field"),
+      email: yup
+        .string()
+        .email("E-mail must be a valid e-mail")
+        .required("E-mail is a required field"),
       confirmEmail: yup
         .string()
         .email()
@@ -117,11 +119,11 @@ const SignUp = () => {
       password: yup
         .string()
         .min(8, "Password must have at least 8 digits")
-        .required("Senha obrigatória!"),
+        .required("Password is a required field"),
       confirmPassword: yup
         .string()
         .oneOf([yup.ref("password")], "Password didn't match"),
-      phone: yup.string().min(13, "Provide a valid phone"),
+      phone: yup.string().min(13, "Phone must be a valid phone"),
       description: yup.string().required("Description is a required field"),
     })
     .required();
@@ -149,7 +151,10 @@ const SignUp = () => {
               )}
             </div>
             <input
-              style={{ borderColor: !!errors?.lastName?.message ? "red" : "" }}
+              style={{
+                borderColor: !!errors?.name?.message ? "red" : "",
+                outline: !!errors?.name?.message ? "red" : "#6200ff",
+              }}
               {...register("name")}
               name="name"
               type="text"
@@ -165,18 +170,36 @@ const SignUp = () => {
                 </p>
               )}
             </div>
-            <input {...register("lastName")} name="lastName" type="text" />
+            <input
+              style={{
+                borderColor: !!errors?.lastName?.message ? "red" : "",
+                outline: !!errors?.lastName?.message ? "red" : "#6200ff",
+              }}
+              {...register("lastName")}
+              name="lastName"
+              type="text"
+            />
           </InputContainer>
         </SideBySide>
         <InputContainer>
-          <label>E-mail</label>
-          <input {...register("email")} name="email" type="email" />
-          {!!errors?.email?.message && (
-            <p>
-              <span>-</span>
-              {errors?.email?.message}
-            </p>
-          )}
+          <div>
+            <label>E-mail</label>
+            {!!errors?.email?.message && (
+              <p>
+                <span>-</span>
+                {errors?.email?.message}
+              </p>
+            )}
+          </div>
+          <input
+            style={{
+              borderColor: !!errors?.email?.message ? "red" : "",
+              outline: !!errors?.email?.message ? "red" : "#6200ff",
+            }}
+            {...register("email")}
+            name="email"
+            type="email"
+          />
         </InputContainer>
         <InputContainer>
           <div>
@@ -189,6 +212,10 @@ const SignUp = () => {
             )}
           </div>
           <input
+            style={{
+              borderColor: !!errors?.confimEmail?.message ? "red" : "",
+              outline: !!errors?.confirmEmail?.message ? "red" : "#6200ff",
+            }}
             {...register("confirmEmail")}
             name="confirmEmail"
             type="email"
@@ -213,8 +240,13 @@ const SignUp = () => {
             </div>
             <PasswordContainer>
               <input
+                style={{
+                  borderColor: !!errors?.password?.message ? "red" : "",
+                  outline: !!errors?.password?.message ? "red" : "#6200ff",
+                }}
                 {...register("password")}
                 name="password"
+                id="password"
                 type="password"
               />
               {showPass.pass ? (
@@ -236,8 +268,15 @@ const SignUp = () => {
             </div>
             <PasswordContainer>
               <input
+                style={{
+                  borderColor: !!errors?.confimPassword?.message ? "red" : "",
+                  outline: !!errors?.confirmPassword?.message
+                    ? "red"
+                    : "#6200ff",
+                }}
                 {...register("confirmPassword")}
                 name="confirmPassword"
+                id="confirmPassword"
                 type="password"
               />
               {showPass.confirmPass ? (
@@ -309,6 +348,10 @@ const SignUp = () => {
             )}
           </div>
           <input
+            style={{
+              borderColor: !!errors?.phone?.message ? "red" : "",
+              outline: !!errors?.phone?.message ? "red" : "#6200ff",
+            }}
             {...register("phone")}
             name="phone"
             maxLength={14}
@@ -326,9 +369,16 @@ const SignUp = () => {
               </p>
             )}
           </div>
-          <textarea {...register("description")} name="description" />
+          <textarea
+            style={{
+              borderColor: !!errors?.description?.message ? "red" : "",
+              outline: !!errors?.description?.message ? "red" : "#6200ff",
+            }}
+            {...register("description")}
+            name="description"
+          />
         </InputContainer>
-        <Button type="submit" label="sign-up" name="sign-up" />
+        <Button type="submit" label="Sign-up" name="sign-up" />
         <p>
           Do not have an account? <Link href="/sign-in">Login here!</Link>
         </p>
