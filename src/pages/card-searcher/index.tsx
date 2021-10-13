@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Button } from "../../components/Button";
-import { RadioInput } from "../../components/RadioInput";
-import { TextInput } from "../../components/TextInput";
+import { Radio } from "../../components/Inputs/Radio";
+import { Text } from "../../components/Inputs/Text";
 import { Context } from "../_app";
 import {
   AdvancedSearch,
@@ -20,18 +20,14 @@ const CardSearcher = (): JSX.Element => {
     <Container style={{ paddingLeft }}>
       <Header>
         <SearchBar>
-          <TextInput
-            type="text"
-            name="cardSearcher"
-            label="Search For Any Card"
-          />
+          <Text type="text" name="cardSearcher" label="Search For Any Card" />
           <Button label="Search" name="searchCard" />
         </SearchBar>
         <AdvancedSearch>
           <Colors>
-            <RadioInput id="red" name="color" label="Red" />
-            <RadioInput id="blue" name="color" label="Blue" />
-            <RadioInput id="white" name="color" label="White" />
+            <Radio id="red" name="color" label="Red" />
+            <Radio id="blue" name="color" label="Blue" />
+            <Radio id="white" name="color" label="White" />
           </Colors>
         </AdvancedSearch>
       </Header>

@@ -7,7 +7,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-export const RadioInput = ({
+export const Radio = ({
   id,
   name,
   label,
