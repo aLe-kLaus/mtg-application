@@ -86,12 +86,12 @@ export const InputContainer = styled.div`
 
   input {
     width: 100%;
-    height: 50px;
+    height: 35px;
     border: 1px solid ${(props) => props.theme.colors.black};
     outline: 0px;
     font-size: 16px;
     padding: 0 10px;
-    border-radius: 4px;
+    border-radius: 10px;
 
     :focus {
       border: 2px solid ${(props) => props.theme.colors.purple};
@@ -108,7 +108,7 @@ export const InputContainer = styled.div`
     outline: 0px;
     font-size: 16px;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 10px;
 
     :focus {
       border: 2px solid ${(props) => props.theme.colors.purple};
@@ -116,7 +116,13 @@ export const InputContainer = styled.div`
   }
 
   label {
-    font-size: 17px;
+    font-weight: 500;
+    font-size: 16px;
     margin-bottom: 5px;
+  }
+
+  h3 {
+    font-size: 12px;
+    margin-top: 10px;
   }
 `;

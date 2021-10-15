@@ -18,8 +18,21 @@ import states from "../../services/JSON/states.json";
 import { Select } from "../../components/Inputs/Select";
 
 const SignUp = () => {
+  const { isSidebarOpen } = useContext(Context);
+
   const [showPass, setShowPass] = useState({ pass: false, confirmPass: false });
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [phone, setPhone] = useState("");
+
+  const [street, setStreet] = useState("");
+  const [complement, setComplement] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
   const [currentState, setCurrentState] = useState({
     id: "1",
     initials: "AC",
@@ -31,7 +44,10 @@ const SignUp = () => {
     state: "1",
   });
 
-  const { isSidebarOpen } = useContext(Context);
+  const [favoriteCards, setFavoriteCards] = useState("");
+  const [tradeCards, setTradeCards] = useState("");
+  const [description, setDescription] = useState("");
+
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
   const handleShowPass = (value: boolean, input: string) => {
@@ -107,7 +123,6 @@ const SignUp = () => {
     .object()
     .shape({
       name: yup.string().required("Name is a required field"),
-      lastName: yup.string().required("Last Name is a required field"),
       email: yup
         .string()
         .email("E-mail must be a valid e-mail")
@@ -123,7 +138,17 @@ const SignUp = () => {
       confirmPassword: yup
         .string()
         .oneOf([yup.ref("password")], "Password didn't match"),
+
+      street: yup.string().required("Street is a required field"),
+      houseNumber: yup.string().required("Number is a required field"),
+      complement: yup.string(),
+
       phone: yup.string().min(13, "Phone must be a valid phone"),
+
+      favoriteCards: yup
+        .string()
+        .required("You must provide at least one card"),
+      tradeCards: yup.string().required("You must provide at least one card"),
       description: yup.string().required("Description is a required field"),
     })
     .required();
@@ -139,48 +164,28 @@ const SignUp = () => {
   return (
     <Container style={{ paddingLeft }}>
       <Form onSubmit={handleSubmit((d) => console.log(d))}>
-        <SideBySide>
-          <InputContainer>
-            <div>
-              <label>Name</label>
-              {!!errors?.name?.message && (
-                <p>
-                  <span>-</span>
-                  {errors?.name?.message}
-                </p>
-              )}
-            </div>
-            <input
-              style={{
-                borderColor: !!errors?.name?.message ? "red" : "",
-                outline: !!errors?.name?.message ? "red" : "#6200ff",
-              }}
-              {...register("name")}
-              name="name"
-              type="text"
-            />
-          </InputContainer>
-          <InputContainer>
-            <div>
-              <label>Last Name</label>
-              {!!errors?.lastName?.message && (
-                <p>
-                  <span>-</span>
-                  {errors?.lastName?.message}
-                </p>
-              )}
-            </div>
-            <input
-              style={{
-                borderColor: !!errors?.lastName?.message ? "red" : "",
-                outline: !!errors?.lastName?.message ? "red" : "#6200ff",
-              }}
-              {...register("lastName")}
-              name="lastName"
-              type="text"
-            />
-          </InputContainer>
-        </SideBySide>
+        <InputContainer>
+          <div>
+            <label>Name</label>
+            {!!errors?.name?.message && (
+              <p>
+                <span>-</span>
+                {errors?.name?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("name")}
+            value={name}
+            onChange={(evt) => setName(evt.target.value)}
+            style={{
+              borderColor: !!errors?.name?.message ? "red" : "",
+              outline: !!errors?.name?.message ? "red" : "#6200ff",
+            }}
+            name="name"
+            type="text"
+          />
+        </InputContainer>
         <InputContainer>
           <div>
             <label>E-mail</label>
@@ -192,11 +197,13 @@ const SignUp = () => {
             )}
           </div>
           <input
+            {...register("email")}
             style={{
               borderColor: !!errors?.email?.message ? "red" : "",
               outline: !!errors?.email?.message ? "red" : "#6200ff",
             }}
-            {...register("email")}
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
             name="email"
             type="email"
           />
@@ -212,11 +219,13 @@ const SignUp = () => {
             )}
           </div>
           <input
+            {...register("confirmEmail")}
             style={{
               borderColor: !!errors?.confimEmail?.message ? "red" : "",
               outline: !!errors?.confirmEmail?.message ? "red" : "#6200ff",
             }}
-            {...register("confirmEmail")}
+            value={confirmEmail}
+            onChange={(evt) => setConfirmEmail(evt.target.value)}
             name="confirmEmail"
             type="email"
           />
@@ -240,11 +249,13 @@ const SignUp = () => {
             </div>
             <PasswordContainer>
               <input
+                {...register("password")}
                 style={{
                   borderColor: !!errors?.password?.message ? "red" : "",
                   outline: !!errors?.password?.message ? "red" : "#6200ff",
                 }}
-                {...register("password")}
+                value={password}
+                onChange={(evt) => setPassword(evt.target.value)}
                 name="password"
                 id="password"
                 type="password"
@@ -268,13 +279,15 @@ const SignUp = () => {
             </div>
             <PasswordContainer>
               <input
+                {...register("confirmPassword")}
                 style={{
                   borderColor: !!errors?.confimPassword?.message ? "red" : "",
                   outline: !!errors?.confirmPassword?.message
                     ? "red"
                     : "#6200ff",
                 }}
-                {...register("confirmPassword")}
+                value={confirmPassword}
+                onChange={(evt) => setConfirmPassword(evt.target.value)}
                 name="confirmPassword"
                 id="confirmPassword"
                 type="password"
@@ -339,6 +352,59 @@ const SignUp = () => {
         </SideBySide>
         <InputContainer>
           <div>
+            <label>Street</label>
+            {!!errors?.street?.message && (
+              <p>
+                <span>-</span>
+                {errors?.street?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("street")}
+            name="street"
+            value={street}
+            onChange={(evt) => setStreet(evt.target.value)}
+          />
+        </InputContainer>
+        <SideBySide>
+          <InputContainer>
+            <div>
+              <label>Number</label>
+              {!!errors?.houseNumber?.message && (
+                <p>
+                  <span>-</span>
+                  {errors?.houseNumber?.message}
+                </p>
+              )}
+            </div>
+            <input
+              {...register("houseNumber")}
+              name="houseNumber"
+              value={houseNumber}
+              onChange={(evt) => setHouseNumber(evt.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <div>
+              <label>Complement</label>
+              {!!errors?.complement?.message && (
+                <p>
+                  <span>-</span>
+                  {errors?.complement?.message}
+                </p>
+              )}
+            </div>
+            <input
+              {...register("complement")}
+              name="complement"
+              value={complement}
+              onChange={(evt) => setComplement(evt.target.value)}
+            />
+          </InputContainer>
+        </SideBySide>
+        <InputContainer>
+          <div>
             <label>Phone</label>
             {!!errors?.phone?.message && (
               <p>
@@ -348,16 +414,66 @@ const SignUp = () => {
             )}
           </div>
           <input
+            {...register("phone")}
             style={{
               borderColor: !!errors?.phone?.message ? "red" : "",
               outline: !!errors?.phone?.message ? "red" : "#6200ff",
             }}
-            {...register("phone")}
             name="phone"
             maxLength={14}
             value={phone}
             onChange={(evt) => handleChangePhone(evt.target.value)}
           />
+        </InputContainer>
+        <InputContainer>
+          <div>
+            <label>Favorite Cards</label>
+            {!!errors?.favoriteCards?.message && (
+              <p>
+                <span>-</span>
+                {errors?.favoriteCards?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("favoriteCards")}
+            style={{
+              borderColor: !!errors?.favoriteCards?.message ? "red" : "",
+              outline: !!errors?.favoriteCards?.message ? "red" : "#6200ff",
+            }}
+            value={favoriteCards}
+            onChange={(evt) => setFavoriteCards(evt.target.value)}
+            name="favoriteCards"
+          />
+          <h3>
+            Use ";" to divide the cards eg: 'Black Lotus;Nicol Bolas,
+            God-Pharaoh - max of 6 cards'
+          </h3>
+        </InputContainer>
+        <InputContainer>
+          <div>
+            <label>Cards to trade</label>
+            {!!errors?.tradeCards?.message && (
+              <p>
+                <span>-</span>
+                {errors?.tradeCards?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("tradeCards")}
+            style={{
+              borderColor: !!errors?.tradeCards?.message ? "red" : "",
+              outline: !!errors?.tradeCards?.message ? "red" : "#6200ff",
+            }}
+            value={tradeCards}
+            onChange={(evt) => setTradeCards(evt.target.value)}
+            name="favoriteCards"
+          />
+          <h3>
+            Use ";" to divide the cards eg: 'Black Lotus;Nicol Bolas,
+            God-Pharaoh'
+          </h3>
         </InputContainer>
         <InputContainer>
           <div>
@@ -370,11 +486,13 @@ const SignUp = () => {
             )}
           </div>
           <textarea
+            {...register("description")}
             style={{
               borderColor: !!errors?.description?.message ? "red" : "",
               outline: !!errors?.description?.message ? "red" : "#6200ff",
             }}
-            {...register("description")}
+            value={description}
+            onChange={(evt) => setDescription(evt.target.value)}
             name="description"
           />
         </InputContainer>

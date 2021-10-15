@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
@@ -6,9 +6,14 @@ import { Context } from "../../pages/_app";
 import { Container } from "./styles";
 
 export const Sidebar = (): JSX.Element => {
-  const { isUserLogged, isSidebarOpen, setIsSidebarOpen } = useContext(Context);
+  const { isUserLogged, isSidebarOpen, setIsSidebarOpen, setIsUserLogged } =
+    useContext(Context);
 
   const showSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  useEffect(() => {
+    setIsUserLogged(true);
+  });
 
   return (
     <Container>
@@ -16,7 +21,7 @@ export const Sidebar = (): JSX.Element => {
         <div className="menu-bars sidebar-close">
           <FaIcons.FaBars onClick={showSidebar} />
         </div>
-        <div className="login-menu">
+        <div className={`${isUserLogged ? "login-menu-logged" : "login-menu"}`}>
           {!isUserLogged ? (
             <React.Fragment>
               <div className="sign-up">
@@ -31,9 +36,11 @@ export const Sidebar = (): JSX.Element => {
               </div>
             </React.Fragment>
           ) : (
-            <div className="">
-              <FaIcons.FaUser />
-            </div>
+            <Link href="/user-profile">
+              <div className="logged-user">
+                <FaIcons.FaUser />
+              </div>
+            </Link>
           )}
         </div>
       </div>
