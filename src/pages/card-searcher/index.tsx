@@ -8,6 +8,10 @@ import {
   UsersContainer,
   SearchBar,
   SearchContainer,
+  User,
+  ProfilePicture,
+  Users,
+  Info,
 } from "./styles";
 
 const CardSearcher = (): JSX.Element => {
@@ -34,7 +38,74 @@ const CardSearcher = (): JSX.Element => {
           <Button label="Search" name="searchCard" />
         </SearchBar>
       </SearchContainer>
-      <UsersContainer></UsersContainer>
+      <UsersContainer>
+        <Title
+          title="This are the users that are willing to trade/sell"
+          color="#000000"
+        ></Title>
+        <Users>
+          <User>
+            <ProfilePicture>
+              <img src="/magic-card-back.jpg" alt="profile-photo" />
+            </ProfilePicture>
+            <Info>
+              <strong>User Name</strong>
+              <span>Campo Bom</span>
+              <p>(99)99999-9999</p>
+            </Info>
+          </User>
+          <User>
+            <ProfilePicture>
+              <img src="/magic-card-back.jpg" alt="profile-photo" />
+            </ProfilePicture>
+            <Info>
+              <strong>User Name</strong>
+              <span>Campo Bom</span>
+              <p>(99)99999-9999</p>
+            </Info>
+          </User>
+          <User>
+            <ProfilePicture>
+              <img src="/magic-card-back.jpg" alt="profile-photo" />
+            </ProfilePicture>
+            <Info>
+              <strong>User Name</strong>
+              <span>Campo Bom</span>
+              <p>(99)99999-9999</p>
+            </Info>
+          </User>
+          <User>
+            <ProfilePicture>
+              <img src="/magic-card-back.jpg" alt="profile-photo" />
+            </ProfilePicture>
+            <Info>
+              <strong>User Name</strong>
+              <span>Campo Bom</span>
+              <p>(99)99999-9999</p>
+            </Info>
+          </User>
+          <User>
+            <ProfilePicture>
+              <img src="/magic-card-back.jpg" alt="profile-photo" />
+            </ProfilePicture>
+            <Info>
+              <strong>User Name</strong>
+              <span>Campo Bom</span>
+              <p>(99)99999-9999</p>
+            </Info>
+          </User>
+          <User>
+            <ProfilePicture>
+              <img src="/magic-card-back.jpg" alt="profile-photo" />
+            </ProfilePicture>
+            <Info>
+              <strong>User Name</strong>
+              <span>Campo Bom</span>
+              <p>(99)99999-9999</p>
+            </Info>
+          </User>
+        </Users>
+      </UsersContainer>
     </Container>
   );
 };

@@ -54,7 +54,7 @@ const UserProfile = (props: any): JSX.Element => {
             <p>(51) 99999-9999</p>
             <span> test@example.com</span>
           </div>
-          <img src="https://s2.glbimg.com/2yK3rTPvEDofzpusIhAgrkasz9A=/e.glbimg.com/og/ed/f/original/2019/09/30/oriontree_fairbairn_960.jpg" />
+          <img src="/magic-card-back.jpg" />
         </Profile>
         <EditIcon>
           <FaEdit />

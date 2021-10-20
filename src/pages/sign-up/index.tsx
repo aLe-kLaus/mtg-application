@@ -17,8 +17,6 @@ import cities from "../../JSON/cities.json";
 import states from "../../JSON/states.json";
 import { Select } from "../../components/Inputs/Select";
 
-import locationService from "../../services/locationService";
-
 const SignUp = () => {
   const { isSidebarOpen } = useContext(Context);
 
@@ -31,6 +29,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [phone, setPhone] = useState("");
+  const [age, setAge] = useState("");
 
   const [currentState, setCurrentState] = useState({
     id: "1",
@@ -42,15 +41,9 @@ const SignUp = () => {
     name: "Acrelândia",
     state: "1",
   });
-  const [latAndLng, setLatAndLng] = useState({
-    lat: -10.0764496,
-    lng: -67.0586404,
-  });
 
   const [favoriteCards, setFavoriteCards] = useState("");
-  const [tradeCards, setTradeCards] = useState("");
-  const [description, setDescription] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState("");
+  const [interests, setInterests] = useState("");
 
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
@@ -142,13 +135,15 @@ const SignUp = () => {
       confirmPassword: yup
         .string()
         .oneOf([yup.ref("password")], "Password didn't match"),
-
+      age: yup
+        .string()
+        .max(2, "Insert a valid Age")
+        .required("Age is a required field"),
       phone: yup.string().min(13, "Phone must be a valid phone"),
       favoriteCards: yup
         .string()
         .required("You must provide at least one card"),
-      tradeCards: yup.string().required("You must provide at least one card"),
-      description: yup.string().required("Description is a required field"),
+      interests: yup.string().required("Interests is a required field"),
     })
     .required();
 
@@ -159,16 +154,6 @@ const SignUp = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  const getCityLatAndLong = () => {
-    locationService.getCityLatAndLng(currentCity.name).then((response: any) => {
-      const data = response.data.results[0].geometry.location.lat;
-      setLatAndLng({
-        lat: response.data.results[0].geometry.location.lat as number,
-        lng: response.data.results[0].geometry.location.lng as number,
-      });
-    });
-  };
 
   return (
     <Container style={{ paddingLeft }}>
@@ -361,6 +346,28 @@ const SignUp = () => {
         </SideBySide>
         <InputContainer>
           <div>
+            <label>Age</label>
+            {!!errors?.age?.message && (
+              <p>
+                <span>-</span>
+                {errors?.age?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("age")}
+            style={{
+              borderColor: !!errors?.age?.message ? "red" : "",
+              outline: !!errors?.age?.message ? "red" : "#6200ff",
+            }}
+            name="age"
+            maxLength={14}
+            value={age}
+            onChange={(evt) => setAge(evt.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <div>
             <label>Phone</label>
             {!!errors?.phone?.message && (
               <p>
@@ -406,66 +413,26 @@ const SignUp = () => {
             God-Pharaoh - max of 6 cards'
           </h3>
         </InputContainer>
+
         <InputContainer>
           <div>
-            <label>Cards to trade</label>
-            {!!errors?.tradeCards?.message && (
+            <label>Interests</label>
+            {!!errors?.interests?.message && (
               <p>
                 <span>-</span>
-                {errors?.tradeCards?.message}
-              </p>
-            )}
-          </div>
-          <input
-            {...register("tradeCards")}
-            style={{
-              borderColor: !!errors?.tradeCards?.message ? "red" : "",
-              outline: !!errors?.tradeCards?.message ? "red" : "#6200ff",
-            }}
-            value={tradeCards}
-            onChange={(evt) => setTradeCards(evt.target.value)}
-            name="favoriteCards"
-          />
-          <h3>
-            Use ";" to divide the cards eg.: 'Black Lotus;Nicol Bolas,
-            God-Pharaoh'
-          </h3>
-        </InputContainer>
-        <InputContainer>
-          <div>
-            <label>Description</label>
-            {!!errors?.description?.message && (
-              <p>
-                <span>-</span>
-                {errors?.description?.message}
+                {errors?.interests?.message}
               </p>
             )}
           </div>
           <textarea
-            {...register("description")}
+            {...register("interests")}
             style={{
-              borderColor: !!errors?.description?.message ? "red" : "",
-              outline: !!errors?.description?.message ? "red" : "#6200ff",
+              borderColor: !!errors?.interests?.message ? "red" : "",
+              outline: !!errors?.interests?.message ? "red" : "#6200ff",
             }}
-            value={description}
-            onChange={(evt) => setDescription(evt.target.value)}
-            name="description"
-          />
-        </InputContainer>
-        <InputContainer>
-          <div>
-            <label>Profile Photo</label>
-          </div>
-          <input
-            type="file"
-            name="profilePhoto"
-            id="profilePhoto"
-            value={profilePhoto}
-            accept="image/png, image/jpeg"
-            onChange={(evt) => {
-              const file = evt.target.files[0];
-              console.log(file);
-            }}
+            value={interests}
+            onChange={(evt) => setInterests(evt.target.value)}
+            name="interests"
           />
         </InputContainer>
         <Button type="submit" label="Sign-up" name="sign-up" />
