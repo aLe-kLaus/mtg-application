@@ -79,7 +79,7 @@ export const InputContainer = styled.div`
     outline: 0px;
     font-size: 16px;
     padding: 0 10px;
-    border-radius: 4px;
+    border-radius: 10px;
 
     :focus {
       border: 2px solid ${(props) => props.theme.colors.purple};

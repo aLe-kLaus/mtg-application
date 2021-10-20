@@ -6,7 +6,7 @@ export const Container = styled.div`
     height: 40px;
     background-color: ${(props) => props.theme.colors.black};
     color: ${(props) => props.theme.colors.white};
-    border-radius: 4px;
+    border-radius: 10px;
     border: 0px;
     cursor: pointer;
     font-size: 16px;

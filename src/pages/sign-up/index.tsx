@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -13,13 +13,24 @@ import {
   PasswordContainer,
   InputContainer,
 } from "./styles";
-import cities from "../../services/JSON/cities.json";
-import states from "../../services/JSON/states.json";
+import cities from "../../JSON/cities.json";
+import states from "../../JSON/states.json";
 import { Select } from "../../components/Inputs/Select";
 
 const SignUp = () => {
+  const { isSidebarOpen } = useContext(Context);
+
   const [showPass, setShowPass] = useState({ pass: false, confirmPass: false });
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [phone, setPhone] = useState("");
+  const [age, setAge] = useState("");
+
   const [currentState, setCurrentState] = useState({
     id: "1",
     initials: "AC",
@@ -31,7 +42,9 @@ const SignUp = () => {
     state: "1",
   });
 
-  const { isSidebarOpen } = useContext(Context);
+  const [favoriteCards, setFavoriteCards] = useState("");
+  const [interests, setInterests] = useState("");
+
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
   const handleShowPass = (value: boolean, input: string) => {
@@ -107,7 +120,6 @@ const SignUp = () => {
     .object()
     .shape({
       name: yup.string().required("Name is a required field"),
-      lastName: yup.string().required("Last Name is a required field"),
       email: yup
         .string()
         .email("E-mail must be a valid e-mail")
@@ -123,8 +135,15 @@ const SignUp = () => {
       confirmPassword: yup
         .string()
         .oneOf([yup.ref("password")], "Password didn't match"),
+      age: yup
+        .string()
+        .max(2, "Insert a valid Age")
+        .required("Age is a required field"),
       phone: yup.string().min(13, "Phone must be a valid phone"),
-      description: yup.string().required("Description is a required field"),
+      favoriteCards: yup
+        .string()
+        .required("You must provide at least one card"),
+      interests: yup.string().required("Interests is a required field"),
     })
     .required();
 
@@ -139,48 +158,28 @@ const SignUp = () => {
   return (
     <Container style={{ paddingLeft }}>
       <Form onSubmit={handleSubmit((d) => console.log(d))}>
-        <SideBySide>
-          <InputContainer>
-            <div>
-              <label>Name</label>
-              {!!errors?.name?.message && (
-                <p>
-                  <span>-</span>
-                  {errors?.name?.message}
-                </p>
-              )}
-            </div>
-            <input
-              style={{
-                borderColor: !!errors?.name?.message ? "red" : "",
-                outline: !!errors?.name?.message ? "red" : "#6200ff",
-              }}
-              {...register("name")}
-              name="name"
-              type="text"
-            />
-          </InputContainer>
-          <InputContainer>
-            <div>
-              <label>Last Name</label>
-              {!!errors?.lastName?.message && (
-                <p>
-                  <span>-</span>
-                  {errors?.lastName?.message}
-                </p>
-              )}
-            </div>
-            <input
-              style={{
-                borderColor: !!errors?.lastName?.message ? "red" : "",
-                outline: !!errors?.lastName?.message ? "red" : "#6200ff",
-              }}
-              {...register("lastName")}
-              name="lastName"
-              type="text"
-            />
-          </InputContainer>
-        </SideBySide>
+        <InputContainer>
+          <div>
+            <label>Name</label>
+            {!!errors?.name?.message && (
+              <p>
+                <span>-</span>
+                {errors?.name?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("name")}
+            value={name}
+            onChange={(evt) => setName(evt.target.value)}
+            style={{
+              borderColor: !!errors?.name?.message ? "red" : "",
+              outline: !!errors?.name?.message ? "red" : "#6200ff",
+            }}
+            name="name"
+            type="text"
+          />
+        </InputContainer>
         <InputContainer>
           <div>
             <label>E-mail</label>
@@ -192,11 +191,13 @@ const SignUp = () => {
             )}
           </div>
           <input
+            {...register("email")}
             style={{
               borderColor: !!errors?.email?.message ? "red" : "",
               outline: !!errors?.email?.message ? "red" : "#6200ff",
             }}
-            {...register("email")}
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
             name="email"
             type="email"
           />
@@ -212,11 +213,13 @@ const SignUp = () => {
             )}
           </div>
           <input
+            {...register("confirmEmail")}
             style={{
               borderColor: !!errors?.confimEmail?.message ? "red" : "",
               outline: !!errors?.confirmEmail?.message ? "red" : "#6200ff",
             }}
-            {...register("confirmEmail")}
+            value={confirmEmail}
+            onChange={(evt) => setConfirmEmail(evt.target.value)}
             name="confirmEmail"
             type="email"
           />
@@ -240,11 +243,13 @@ const SignUp = () => {
             </div>
             <PasswordContainer>
               <input
+                {...register("password")}
                 style={{
                   borderColor: !!errors?.password?.message ? "red" : "",
                   outline: !!errors?.password?.message ? "red" : "#6200ff",
                 }}
-                {...register("password")}
+                value={password}
+                onChange={(evt) => setPassword(evt.target.value)}
                 name="password"
                 id="password"
                 type="password"
@@ -268,13 +273,15 @@ const SignUp = () => {
             </div>
             <PasswordContainer>
               <input
+                {...register("confirmPassword")}
                 style={{
                   borderColor: !!errors?.confimPassword?.message ? "red" : "",
                   outline: !!errors?.confirmPassword?.message
                     ? "red"
                     : "#6200ff",
                 }}
-                {...register("confirmPassword")}
+                value={confirmPassword}
+                onChange={(evt) => setConfirmPassword(evt.target.value)}
                 name="confirmPassword"
                 id="confirmPassword"
                 type="password"
@@ -339,6 +346,28 @@ const SignUp = () => {
         </SideBySide>
         <InputContainer>
           <div>
+            <label>Age</label>
+            {!!errors?.age?.message && (
+              <p>
+                <span>-</span>
+                {errors?.age?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("age")}
+            style={{
+              borderColor: !!errors?.age?.message ? "red" : "",
+              outline: !!errors?.age?.message ? "red" : "#6200ff",
+            }}
+            name="age"
+            maxLength={14}
+            value={age}
+            onChange={(evt) => setAge(evt.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <div>
             <label>Phone</label>
             {!!errors?.phone?.message && (
               <p>
@@ -348,11 +377,11 @@ const SignUp = () => {
             )}
           </div>
           <input
+            {...register("phone")}
             style={{
               borderColor: !!errors?.phone?.message ? "red" : "",
               outline: !!errors?.phone?.message ? "red" : "#6200ff",
             }}
-            {...register("phone")}
             name="phone"
             maxLength={14}
             value={phone}
@@ -361,21 +390,49 @@ const SignUp = () => {
         </InputContainer>
         <InputContainer>
           <div>
-            <label>Description</label>
-            {!!errors?.description?.message && (
+            <label>Favorite Cards</label>
+            {!!errors?.favoriteCards?.message && (
               <p>
                 <span>-</span>
-                {errors?.description?.message}
+                {errors?.favoriteCards?.message}
+              </p>
+            )}
+          </div>
+          <input
+            {...register("favoriteCards")}
+            style={{
+              borderColor: !!errors?.favoriteCards?.message ? "red" : "",
+              outline: !!errors?.favoriteCards?.message ? "red" : "#6200ff",
+            }}
+            value={favoriteCards}
+            onChange={(evt) => setFavoriteCards(evt.target.value)}
+            name="favoriteCards"
+          />
+          <h3>
+            Use ";" to divide the cards eg.: 'Black Lotus;Nicol Bolas,
+            God-Pharaoh - max of 6 cards'
+          </h3>
+        </InputContainer>
+
+        <InputContainer>
+          <div>
+            <label>Interests</label>
+            {!!errors?.interests?.message && (
+              <p>
+                <span>-</span>
+                {errors?.interests?.message}
               </p>
             )}
           </div>
           <textarea
+            {...register("interests")}
             style={{
-              borderColor: !!errors?.description?.message ? "red" : "",
-              outline: !!errors?.description?.message ? "red" : "#6200ff",
+              borderColor: !!errors?.interests?.message ? "red" : "",
+              outline: !!errors?.interests?.message ? "red" : "#6200ff",
             }}
-            {...register("description")}
-            name="description"
+            value={interests}
+            onChange={(evt) => setInterests(evt.target.value)}
+            name="interests"
           />
         </InputContainer>
         <Button type="submit" label="Sign-up" name="sign-up" />

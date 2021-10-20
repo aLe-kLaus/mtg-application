@@ -7,12 +7,12 @@ export const Container = styled.div`
 
   select {
     width: 100%;
-    height: 50px;
+    height: 35px;
     border: 1px solid ${(props) => props.theme.colors.black};
     outline: 0px;
     font-size: 16px;
     padding: 0 10px;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: ${(props) => props.theme.colors.white};
 
     :focus {
@@ -21,7 +21,8 @@ export const Container = styled.div`
   }
 
   label {
-    font-size: 20px;
+    font-weight: 500;
+    font-size: 16px;
     margin-bottom: 5px;
   }
 `;

@@ -7,7 +7,7 @@ export const Container = styled.div`
 
   input {
     width: 100%;
-    height: 50px;
+    height: 40px;
     border: 1px solid ${(props) => props.theme.colors.black};
     outline: 0px;
     font-size: 16px;
@@ -20,7 +20,7 @@ export const Container = styled.div`
   }
 
   label {
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
 `;

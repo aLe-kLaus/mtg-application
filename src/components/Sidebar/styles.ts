@@ -18,6 +18,33 @@ export const Container = styled.div`
     margin-right: 2rem;
   }
 
+  .login-menu-logged {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: ${(props) => props.theme.colors.white};
+
+    :hover {
+      .logged-user {
+        transition: 200ms ease-in;
+        color: ${(props) => props.theme.colors.purple} !important;
+      }
+    }
+
+    .logged-user {
+      color: ${(props) => props.theme.colors.black};
+
+      :hover {
+        color: ${(props) => props.theme.colors.purple} !important;
+      }
+    }
+  }
+
   .sign-up {
     width: 100px;
     height: 45px;

@@ -4,3 +4,7 @@ import URLs from "./URLs";
 export const cardsAPI = axios.create({
   baseURL: URLs.cardsURL,
 });
+
+export const locationAPI = axios.create({
+  baseURL: URLs.locationURL,
+});

@@ -7,6 +7,7 @@ export const Container = styled.div`
     font-size: 22px;
     font-weight: 600;
     text-align: center;
+    margin: 0 auto;
 
     @media (max-width: 660px) {
       font-size: 18px;
