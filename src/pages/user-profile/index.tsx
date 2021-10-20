@@ -12,7 +12,7 @@ import {
   ListCard,
   EditIcon,
 } from "./styles";
-import cardsServices from "../../services/cardsServices";
+import cardService from "../../services/cardService";
 import { Title } from "../../components/Title";
 import { FaEdit } from "react-icons/fa";
 
@@ -34,7 +34,7 @@ const UserProfile = (props: any): JSX.Element => {
     });
 
     queryedFavoriteCards.forEach((card) => {
-      cardsServices.getCardsByName(card).then((response: any) => {
+      cardService.getCardsByName(card).then((response: any) => {
         setFavoriteCards((prevState) => [...prevState, response.data.cards[0]]);
       });
     });
@@ -54,7 +54,7 @@ const UserProfile = (props: any): JSX.Element => {
             <p>(51) 99999-9999</p>
             <span> test@example.com</span>
           </div>
-          <img src="https://i.kym-cdn.com/photos/images/original/001/842/159/61b.jpg" />
+          <img src="https://s2.glbimg.com/2yK3rTPvEDofzpusIhAgrkasz9A=/e.glbimg.com/og/ed/f/original/2019/09/30/oriontree_fairbairn_960.jpg" />
         </Profile>
         <EditIcon>
           <FaEdit />

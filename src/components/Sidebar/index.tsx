@@ -12,7 +12,7 @@ export const Sidebar = (): JSX.Element => {
   const showSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   useEffect(() => {
-    setIsUserLogged(true);
+    setIsUserLogged(false);
   });
 
   return (
@@ -60,6 +60,11 @@ export const Sidebar = (): JSX.Element => {
           <li className="nav-text sidebar-close">
             <Link href="/home">
               <a className="sidebar-close">Home</a>
+            </Link>
+          </li>
+          <li className="nav-text sidebar-close">
+            <Link href="/players-nearby">
+              <a className="sidebar-close">Search For a Player</a>
             </Link>
           </li>
           <li className="nav-text sidebar-close">

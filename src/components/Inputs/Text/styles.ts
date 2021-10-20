@@ -7,7 +7,7 @@ export const Container = styled.div`
 
   input {
     width: 100%;
-    height: 35px;
+    height: 40px;
     border: 1px solid ${(props) => props.theme.colors.black};
     outline: 0px;
     font-size: 16px;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -13,9 +13,11 @@ import {
   PasswordContainer,
   InputContainer,
 } from "./styles";
-import cities from "../../services/JSON/cities.json";
-import states from "../../services/JSON/states.json";
+import cities from "../../JSON/cities.json";
+import states from "../../JSON/states.json";
 import { Select } from "../../components/Inputs/Select";
+
+import locationService from "../../services/locationService";
 
 const SignUp = () => {
   const { isSidebarOpen } = useContext(Context);
@@ -30,9 +32,6 @@ const SignUp = () => {
 
   const [phone, setPhone] = useState("");
 
-  const [street, setStreet] = useState("");
-  const [complement, setComplement] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
   const [currentState, setCurrentState] = useState({
     id: "1",
     initials: "AC",
@@ -43,10 +42,15 @@ const SignUp = () => {
     name: "Acrelândia",
     state: "1",
   });
+  const [latAndLng, setLatAndLng] = useState({
+    lat: -10.0764496,
+    lng: -67.0586404,
+  });
 
   const [favoriteCards, setFavoriteCards] = useState("");
   const [tradeCards, setTradeCards] = useState("");
   const [description, setDescription] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
 
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
@@ -139,12 +143,7 @@ const SignUp = () => {
         .string()
         .oneOf([yup.ref("password")], "Password didn't match"),
 
-      street: yup.string().required("Street is a required field"),
-      houseNumber: yup.string().required("Number is a required field"),
-      complement: yup.string(),
-
       phone: yup.string().min(13, "Phone must be a valid phone"),
-
       favoriteCards: yup
         .string()
         .required("You must provide at least one card"),
@@ -160,6 +159,16 @@ const SignUp = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const getCityLatAndLong = () => {
+    locationService.getCityLatAndLng(currentCity.name).then((response: any) => {
+      const data = response.data.results[0].geometry.location.lat;
+      setLatAndLng({
+        lat: response.data.results[0].geometry.location.lat as number,
+        lng: response.data.results[0].geometry.location.lng as number,
+      });
+    });
+  };
 
   return (
     <Container style={{ paddingLeft }}>
@@ -352,59 +361,6 @@ const SignUp = () => {
         </SideBySide>
         <InputContainer>
           <div>
-            <label>Street</label>
-            {!!errors?.street?.message && (
-              <p>
-                <span>-</span>
-                {errors?.street?.message}
-              </p>
-            )}
-          </div>
-          <input
-            {...register("street")}
-            name="street"
-            value={street}
-            onChange={(evt) => setStreet(evt.target.value)}
-          />
-        </InputContainer>
-        <SideBySide>
-          <InputContainer>
-            <div>
-              <label>Number</label>
-              {!!errors?.houseNumber?.message && (
-                <p>
-                  <span>-</span>
-                  {errors?.houseNumber?.message}
-                </p>
-              )}
-            </div>
-            <input
-              {...register("houseNumber")}
-              name="houseNumber"
-              value={houseNumber}
-              onChange={(evt) => setHouseNumber(evt.target.value)}
-            />
-          </InputContainer>
-          <InputContainer>
-            <div>
-              <label>Complement</label>
-              {!!errors?.complement?.message && (
-                <p>
-                  <span>-</span>
-                  {errors?.complement?.message}
-                </p>
-              )}
-            </div>
-            <input
-              {...register("complement")}
-              name="complement"
-              value={complement}
-              onChange={(evt) => setComplement(evt.target.value)}
-            />
-          </InputContainer>
-        </SideBySide>
-        <InputContainer>
-          <div>
             <label>Phone</label>
             {!!errors?.phone?.message && (
               <p>
@@ -446,7 +402,7 @@ const SignUp = () => {
             name="favoriteCards"
           />
           <h3>
-            Use ";" to divide the cards eg: 'Black Lotus;Nicol Bolas,
+            Use ";" to divide the cards eg.: 'Black Lotus;Nicol Bolas,
             God-Pharaoh - max of 6 cards'
           </h3>
         </InputContainer>
@@ -471,7 +427,7 @@ const SignUp = () => {
             name="favoriteCards"
           />
           <h3>
-            Use ";" to divide the cards eg: 'Black Lotus;Nicol Bolas,
+            Use ";" to divide the cards eg.: 'Black Lotus;Nicol Bolas,
             God-Pharaoh'
           </h3>
         </InputContainer>
@@ -494,6 +450,22 @@ const SignUp = () => {
             value={description}
             onChange={(evt) => setDescription(evt.target.value)}
             name="description"
+          />
+        </InputContainer>
+        <InputContainer>
+          <div>
+            <label>Profile Photo</label>
+          </div>
+          <input
+            type="file"
+            name="profilePhoto"
+            id="profilePhoto"
+            value={profilePhoto}
+            accept="image/png, image/jpeg"
+            onChange={(evt) => {
+              const file = evt.target.files[0];
+              console.log(file);
+            }}
           />
         </InputContainer>
         <Button type="submit" label="Sign-up" name="sign-up" />

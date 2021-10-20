@@ -84,6 +84,12 @@ export const InputContainer = styled.div`
     }
   }
 
+  #profilePhoto {
+    padding: 10px;
+    width: 300px;
+    height: 300px;
+  }
+
   input {
     width: 100%;
     height: 35px;

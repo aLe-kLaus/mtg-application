@@ -1,39 +1,40 @@
 import React, { useContext, useState } from "react";
 import { Button } from "../../components/Button";
-import { Radio } from "../../components/Inputs/Radio";
-import { Text } from "../../components/Inputs/Text";
+import { Title } from "../../components/Title";
 import { Context } from "../_app";
 import {
-  AdvancedSearch,
   Container,
   Header,
-  Colors,
-  ResponseCards,
-  Card,
+  UsersContainer,
   SearchBar,
+  SearchContainer,
 } from "./styles";
 
 const CardSearcher = (): JSX.Element => {
   const { paddingLeft } = useContext(Context);
+  const [searchingCard, setSearchingCard] = useState("");
 
   return (
     <Container style={{ paddingLeft }}>
       <Header>
+        <Title
+          title="Here, you can search for any card, and see if anyone have it in order to sell or trade with you!"
+          color="#000000"
+        />
+      </Header>
+      <SearchContainer>
         <SearchBar>
-          <Text type="text" name="cardSearcher" label="Search For Any Card" />
+          <input
+            type="text"
+            name="cardSearcher"
+            placeholder="Search For Any Card"
+            value={searchingCard}
+            onChange={(evt) => setSearchingCard(evt.target.value)}
+          />
           <Button label="Search" name="searchCard" />
         </SearchBar>
-        <AdvancedSearch>
-          <Colors>
-            <Radio id="red" name="color" label="Red" />
-            <Radio id="blue" name="color" label="Blue" />
-            <Radio id="white" name="color" label="White" />
-          </Colors>
-        </AdvancedSearch>
-      </Header>
-      <ResponseCards>
-        <Card></Card>
-      </ResponseCards>
+      </SearchContainer>
+      <UsersContainer></UsersContainer>
     </Container>
   );
 };

@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  width: 100vw;
+  flex-direction: column;
+  width: 100%;
   justify-content: center;
-  height: calc(100vh - 80px);
+  align-items: center;
   transition: padding-left 350ms ease-in;
 
   @media (max-width: 1024px) {
@@ -21,23 +22,49 @@ export const Header = styled.div`
   }
 `;
 
+export const SearchContainer = styled.div`
+  margin: 0 auto;
+  width: 85%;
+  padding: 10px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+`;
+
 export const SearchBar = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 0 auto;
 
-  button {
+  input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid ${(props) => props.theme.colors.black};
+    outline: 0px;
+    font-size: 16px;
+    padding: 0 10px;
+    border-radius: 10px;
+
+    :focus {
+      border: 2px solid ${(props) => props.theme.colors.purple};
+    }
   }
 `;
 
-export const AdvancedSearch = styled.div`
-  width: 100%;
+export const UsersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  padding: 20px 10px;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
-export const Colors = styled.div`
+export const User = styled.div`
   display: flex;
 `;
-
-export const ResponseCards = styled.div``;
-
-export const Card = styled.div``;
