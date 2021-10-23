@@ -16,6 +16,10 @@ type ContextProps = {
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
   paddingLeft: string;
+  lat: number;
+  setLat: React.Dispatch<SetStateAction<number>>;
+  lng: number;
+  setLng: React.Dispatch<SetStateAction<number>>;
 };
 
 const defaultContextValues = {
@@ -24,6 +28,10 @@ const defaultContextValues = {
   isSidebarOpen: false,
   setIsSidebarOpen: () => Boolean,
   paddingLeft: "0px",
+  lat: -15.7801,
+  setLat: () => Number,
+  lng: -47.9292,
+  setLng: () => Number,
 };
 
 export const Context = createContext<ContextProps>(defaultContextValues);
@@ -35,6 +43,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     defaultContextValues.isSidebarOpen
   );
+  const [lat, setLat] = useState(defaultContextValues.lat);
+  const [lng, setLng] = useState(defaultContextValues.lng);
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
   useEffect(() => {
@@ -54,6 +64,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           isSidebarOpen,
           setIsSidebarOpen,
           paddingLeft,
+          lat,
+          setLat,
+          lng,
+          setLng,
         }}
       >
         <GlobalStyle />

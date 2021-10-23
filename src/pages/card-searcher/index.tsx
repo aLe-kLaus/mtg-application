@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Button } from "../../components/Button";
 import { Title } from "../../components/Title";
+import userServices from "../../services/userServices";
 import { Context } from "../_app";
 import {
   Container,
@@ -17,6 +18,27 @@ import {
 const CardSearcher = (): JSX.Element => {
   const { paddingLeft } = useContext(Context);
   const [searchingCard, setSearchingCard] = useState("");
+  const [searchedCard, setSearchedCard] = useState("");
+  const [usersNotFound, setUsersNotFound] = useState(false);
+  const [users, setUsers] = useState([]);
+
+  const handleSearch = async () => {
+    setSearchedCard(searchingCard);
+    try {
+      const response: any = await userServices.getUsersByCardName(
+        searchingCard
+      );
+      if (response?.data?.length === 0) {
+        setUsers([]);
+        setUsersNotFound(true);
+      } else {
+        setUsers(response.data);
+        setUsersNotFound(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container style={{ paddingLeft }}>
@@ -35,76 +57,37 @@ const CardSearcher = (): JSX.Element => {
             value={searchingCard}
             onChange={(evt) => setSearchingCard(evt.target.value)}
           />
-          <Button label="Search" name="searchCard" />
+          <Button label="Search" name="searchCard" onClick={handleSearch} />
         </SearchBar>
       </SearchContainer>
       <UsersContainer>
-        <Title
-          title="This are the users that are willing to trade/sell"
-          color="#000000"
-        ></Title>
-        <Users>
-          <User>
-            <ProfilePicture>
-              <img src="/magic-card-back.jpg" alt="profile-photo" />
-            </ProfilePicture>
-            <Info>
-              <strong>User Name</strong>
-              <span>Campo Bom</span>
-              <p>(99)99999-9999</p>
-            </Info>
-          </User>
-          <User>
-            <ProfilePicture>
-              <img src="/magic-card-back.jpg" alt="profile-photo" />
-            </ProfilePicture>
-            <Info>
-              <strong>User Name</strong>
-              <span>Campo Bom</span>
-              <p>(99)99999-9999</p>
-            </Info>
-          </User>
-          <User>
-            <ProfilePicture>
-              <img src="/magic-card-back.jpg" alt="profile-photo" />
-            </ProfilePicture>
-            <Info>
-              <strong>User Name</strong>
-              <span>Campo Bom</span>
-              <p>(99)99999-9999</p>
-            </Info>
-          </User>
-          <User>
-            <ProfilePicture>
-              <img src="/magic-card-back.jpg" alt="profile-photo" />
-            </ProfilePicture>
-            <Info>
-              <strong>User Name</strong>
-              <span>Campo Bom</span>
-              <p>(99)99999-9999</p>
-            </Info>
-          </User>
-          <User>
-            <ProfilePicture>
-              <img src="/magic-card-back.jpg" alt="profile-photo" />
-            </ProfilePicture>
-            <Info>
-              <strong>User Name</strong>
-              <span>Campo Bom</span>
-              <p>(99)99999-9999</p>
-            </Info>
-          </User>
-          <User>
-            <ProfilePicture>
-              <img src="/magic-card-back.jpg" alt="profile-photo" />
-            </ProfilePicture>
-            <Info>
-              <strong>User Name</strong>
-              <span>Campo Bom</span>
-              <p>(99)99999-9999</p>
-            </Info>
-          </User>
-        </Users>
+        {!usersNotFound && users.length > 0 && (
+          <Title
+            title="This are the users that are willing to trade/sell"
+            color="#000000"
+          />
+        )}
+        {!usersNotFound ? (
+          <Users>
+            {users.map((user: any) => (
+              <User key={user.id}>
+                <ProfilePicture>
+                  <img src="/magic-card-back.jpg" alt="profile-photo" />
+                </ProfilePicture>
+                <Info>
+                  <strong>{user.name}</strong>
+                  <span>{user.city}</span>
+                  <p>{user.cellphone}</p>
+                </Info>
+              </User>
+            ))}
+          </Users>
+        ) : (
+          <Title
+            title={`We don't found any users that have the card: ${searchedCard}`}
+            color="#000"
+          ></Title>
+        )}
       </UsersContainer>
     </Container>
   );

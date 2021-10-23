@@ -8,3 +8,7 @@ export const cardsAPI = axios.create({
 export const locationAPI = axios.create({
   baseURL: URLs.locationURL,
 });
+
+export const userAPI = axios.create({
+  baseURL: URLs.userURL,
+});

@@ -7,9 +7,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "../../components/Button";
 import { Context } from "../_app";
 import { Container, Form, InputContainer, PasswordContainer } from "./styles";
+import userServices from "../../services/userServices";
 
 const SignIn = (): JSX.Element => {
   const [showPass, setShowPass] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { isSidebarOpen } = useContext(Context);
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
@@ -45,13 +48,19 @@ const SignIn = (): JSX.Element => {
     }
   };
 
+  const handleFormSubmit = async () => {
+    const data = { email: email, password: password };
+    try {
+      const response = await userServices.signIn(data);
+      console.log("🚀 ~ response", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container style={{ paddingLeft }}>
-      <Form
-        onSubmit={handleSubmit((d) => {
-          console.log(d);
-        })}
-      >
+      <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <InputContainer>
           <div>
             <label>E-mail</label>
@@ -70,6 +79,8 @@ const SignIn = (): JSX.Element => {
             {...register("email")}
             name="email"
             type="email"
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
           />
         </InputContainer>
         <InputContainer>
@@ -92,6 +103,8 @@ const SignIn = (): JSX.Element => {
               name="password"
               type="password"
               id="password"
+              value={password}
+              onChange={(evt) => setPassword(evt.target.value)}
             />
             {showPass ? (
               <FaEyeSlash onClick={() => handleShowPass(false)} />
