@@ -8,13 +8,18 @@ import { Button } from "../../components/Button";
 import { Context } from "../_app";
 import { Container, Form, InputContainer, PasswordContainer } from "./styles";
 import userServices from "../../services/userServices";
+import { ErrorModal } from "../../components/ErrorModal";
+import { useRouter } from "next/dist/client/router";
 
 const SignIn = (): JSX.Element => {
-  const [showPass, setShowPass] = useState(false);
+  const { route, paddingLeft } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isSidebarOpen } = useContext(Context);
-  const paddingLeft = isSidebarOpen ? "250px" : "0px";
+  const [showPass, setShowPass] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const router = useRouter();
 
   const schema = yup
     .object()
@@ -52,9 +57,10 @@ const SignIn = (): JSX.Element => {
     const data = { email: email, password: password };
     try {
       const response = await userServices.signIn(data);
-      console.log("🚀 ~ response", response);
-    } catch (error) {
-      console.log(error);
+      router.push(route);
+    } catch (error: any) {
+      setShowErrorModal(true);
+      setErrorMessage(error?.response.data.error);
     }
   };
 
@@ -118,6 +124,11 @@ const SignIn = (): JSX.Element => {
           Do not have an account? <Link href="/sign-up">Sign Up here!</Link>
         </p>
       </Form>
+      <ErrorModal
+        error={errorMessage}
+        show={showErrorModal}
+        setShow={setShowErrorModal}
+      />
     </Container>
   );
 };

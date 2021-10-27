@@ -20,6 +20,8 @@ type ContextProps = {
   setLat: React.Dispatch<SetStateAction<number>>;
   lng: number;
   setLng: React.Dispatch<SetStateAction<number>>;
+  route: string;
+  setRoute: React.Dispatch<SetStateAction<string>>;
 };
 
 const defaultContextValues = {
@@ -32,6 +34,8 @@ const defaultContextValues = {
   setLat: () => Number,
   lng: -47.9292,
   setLng: () => Number,
+  route: "/home",
+  setRoute: () => String,
 };
 
 export const Context = createContext<ContextProps>(defaultContextValues);
@@ -45,6 +49,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   );
   const [lat, setLat] = useState(defaultContextValues.lat);
   const [lng, setLng] = useState(defaultContextValues.lng);
+  const [route, setRoute] = useState(defaultContextValues.route);
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
   useEffect(() => {
@@ -68,6 +73,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           setLat,
           lng,
           setLng,
+          route,
+          setRoute,
         }}
       >
         <GlobalStyle />

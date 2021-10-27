@@ -19,4 +19,18 @@ export default {
 
     return response;
   },
+
+  async signUp(data: any) {
+    const response = await userAPI.post(`/user`, {
+      name: data.name,
+      city: data.city,
+      estate: data.state,
+      age: data.age,
+      email: data.email,
+      password: data.password,
+      cellphone: data.cellphone,
+      interests: data.interests,
+      favorite_cards: data.favorite_cards,
+    });
+  },
 };

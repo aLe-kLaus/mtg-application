@@ -16,9 +16,10 @@ import {
 import cities from "../../JSON/cities.json";
 import states from "../../JSON/states.json";
 import { Select } from "../../components/Inputs/Select";
+import userServices from "../../services/userServices";
 
 const SignUp = () => {
-  const { isSidebarOpen } = useContext(Context);
+  const { paddingLeft } = useContext(Context);
 
   const [showPass, setShowPass] = useState({ pass: false, confirmPass: false });
 
@@ -44,8 +45,6 @@ const SignUp = () => {
 
   const [favoriteCards, setFavoriteCards] = useState("");
   const [interests, setInterests] = useState("");
-
-  const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
   const handleShowPass = (value: boolean, input: string) => {
     if (input === "password") {
@@ -147,6 +146,23 @@ const SignUp = () => {
     })
     .required();
 
+  const handleRegister = async () => {
+    const data: any = {
+      name: name,
+      city: currentCity.name,
+      state: currentState.name,
+      age: age,
+      email: email,
+      password: password,
+      cellphone: phone,
+      interests: interests,
+      favorite_cards: favoriteCards,
+    };
+    try {
+      const response = await userServices.signUp(data);
+    } catch (error) {}
+  };
+
   const {
     register,
     handleSubmit,
@@ -157,7 +173,7 @@ const SignUp = () => {
 
   return (
     <Container style={{ paddingLeft }}>
-      <Form onSubmit={handleSubmit((d) => console.log(d))}>
+      <Form onSubmit={handleSubmit(handleRegister)}>
         <InputContainer>
           <div>
             <label>Name</label>
