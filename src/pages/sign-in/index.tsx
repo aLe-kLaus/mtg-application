@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -7,11 +7,20 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "../../components/Button";
 import { Context } from "../_app";
 import { Container, Form, InputContainer, PasswordContainer } from "./styles";
+import userServices from "../../services/userServices";
+import { ErrorModal } from "../../components/Modals/Error";
+import { SucessModal } from "../../components/Modals/Success";
 
 const SignIn = (): JSX.Element => {
+  const { route, paddingLeft, setUserID, setIsUserLogged } =
+    useContext(Context);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const { isSidebarOpen } = useContext(Context);
-  const paddingLeft = isSidebarOpen ? "250px" : "0px";
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const successMessage = "Login Successful";
 
   const schema = yup
     .object()
@@ -45,13 +54,31 @@ const SignIn = (): JSX.Element => {
     }
   };
 
+  const handleFormSubmit = async () => {
+    const data = { email: email, password: password };
+    try {
+      const response: any = await userServices.signIn(data);
+      console.log(
+        "🚀 ~ file: index.tsx ~ line 62 ~ handleFormSubmit ~ response",
+        response
+      );
+      setShowSuccessModal(true);
+      window.sessionStorage.setItem("mtg-user-token", response.data);
+    } catch (error: any) {
+      setShowErrorModal(true);
+      setErrorMessage(error?.response.data.error);
+    }
+  };
+
+  useEffect(() => {
+    window.sessionStorage.removeItem("mtg-user-token");
+    setUserID("");
+    setIsUserLogged(false);
+  }, []);
+
   return (
     <Container style={{ paddingLeft }}>
-      <Form
-        onSubmit={handleSubmit((d) => {
-          console.log(d);
-        })}
-      >
+      <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <InputContainer>
           <div>
             <label>E-mail</label>
@@ -70,6 +97,8 @@ const SignIn = (): JSX.Element => {
             {...register("email")}
             name="email"
             type="email"
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
           />
         </InputContainer>
         <InputContainer>
@@ -92,6 +121,8 @@ const SignIn = (): JSX.Element => {
               name="password"
               type="password"
               id="password"
+              value={password}
+              onChange={(evt) => setPassword(evt.target.value)}
             />
             {showPass ? (
               <FaEyeSlash onClick={() => handleShowPass(false)} />
@@ -105,6 +136,17 @@ const SignIn = (): JSX.Element => {
           Do not have an account? <Link href="/sign-up">Sign Up here!</Link>
         </p>
       </Form>
+      <ErrorModal
+        error={errorMessage}
+        show={showErrorModal}
+        setShow={setShowErrorModal}
+      />
+      <SucessModal
+        success={successMessage}
+        path={route}
+        pathText="Redirect"
+        show={showSuccessModal}
+      />
     </Container>
   );
 };

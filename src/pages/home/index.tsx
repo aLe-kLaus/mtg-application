@@ -6,7 +6,14 @@ import { Title } from "../../components/Title";
 import { FaEdit } from "react-icons/fa";
 
 const Home = (): JSX.Element => {
-  const { paddingLeft } = useContext(Context);
+  const { paddingLeft, setIsUserLogged, setUserID } = useContext(Context);
+
+  useEffect(() => {
+    setIsUserLogged(
+      !!window.sessionStorage.getItem("mtg-user-token") as boolean
+    );
+    setUserID(window.sessionStorage.getItem("mtg-user-token") ?? "");
+  }, []);
 
   return (
     <Container style={{ paddingLeft }}>

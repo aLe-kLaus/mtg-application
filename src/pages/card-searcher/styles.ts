@@ -104,8 +104,8 @@ export const User = styled.div`
 `;
 
 export const ProfilePicture = styled.div`
-  width: 110px;
-  height: 110px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin: 0 auto;
   display: flex;
@@ -114,8 +114,8 @@ export const ProfilePicture = styled.div`
   border: 2px solid black;
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
   }
 `;

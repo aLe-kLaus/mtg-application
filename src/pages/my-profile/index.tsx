@@ -10,6 +10,7 @@ import {
   Interests,
   TradeCards,
   ListCard,
+  EditIcon,
 } from "./styles";
 import cardService from "../../services/cardService";
 import { Title } from "../../components/Title";
@@ -23,7 +24,7 @@ type CardProps = {
 
 type CardsProps = CardProps[];
 
-const UserProfile = (props: any): JSX.Element => {
+const MyProfile = (props: any): JSX.Element => {
   const { paddingLeft, setIsUserLogged, setUserID, isUserLogged } =
     useContext(Context);
   const [favoriteCards, setFavoriteCards] = useState<CardsProps>([]);
@@ -68,6 +69,9 @@ const UserProfile = (props: any): JSX.Element => {
           </div>
           <img src="/magic-card-back.jpg" />
         </Profile>
+        <EditIcon>
+          <FaEdit />
+        </EditIcon>
       </Header>
       <UserDescription>
         <FavoriteCards>
@@ -133,7 +137,7 @@ const UserProfile = (props: any): JSX.Element => {
   );
 };
 
-UserProfile.getInitialProps = async () => {
+MyProfile.getInitialProps = async () => {
   const favoriteCardsFromApi = [
     "Black Lotus",
     "Lightning Bolt",
@@ -157,4 +161,4 @@ UserProfile.getInitialProps = async () => {
   };
 };
 
-export default UserProfile;
+export default MyProfile;
