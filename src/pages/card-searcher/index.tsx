@@ -1,4 +1,6 @@
-import React, { useContext, useState } from "react";
+import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import { Title } from "../../components/Title";
 import userServices from "../../services/userServices";
@@ -16,11 +18,14 @@ import {
 } from "./styles";
 
 const CardSearcher = (): JSX.Element => {
-  const { paddingLeft } = useContext(Context);
+  const { paddingLeft, setUserID, setIsUserLogged, isUserLogged } =
+    useContext(Context);
   const [searchingCard, setSearchingCard] = useState("");
   const [searchedCard, setSearchedCard] = useState("");
   const [usersNotFound, setUsersNotFound] = useState(false);
   const [users, setUsers] = useState([]);
+
+  const router = useRouter();
 
   const handleSearch = async () => {
     setSearchedCard(searchingCard);
@@ -39,6 +44,17 @@ const CardSearcher = (): JSX.Element => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setIsUserLogged(
+      !!window.sessionStorage.getItem("mtg-user-token") as boolean
+    );
+    setUserID(window.sessionStorage.getItem("mtg-user-token") ?? "");
+
+    if (!isUserLogged) {
+      router.push("/sign-in");
+    }
+  }, []);
 
   return (
     <Container style={{ paddingLeft }}>
@@ -69,17 +85,19 @@ const CardSearcher = (): JSX.Element => {
         )}
         {!usersNotFound ? (
           <Users>
-            {users.map((user: any) => (
-              <User key={user.id}>
-                <ProfilePicture>
-                  <img src="/magic-card-back.jpg" alt="profile-photo" />
-                </ProfilePicture>
-                <Info>
-                  <strong>{user.name}</strong>
-                  <span>{user.city}</span>
-                  <p>{user.cellphone}</p>
-                </Info>
-              </User>
+            {users.map((user: any, index) => (
+              <Link href={`/user-profile?user=${user.id}`}>
+                <User key={index}>
+                  <ProfilePicture>
+                    <img src="/magic-card-back.jpg" alt="profile-photo" />
+                  </ProfilePicture>
+                  <Info>
+                    <strong>{user.name}</strong>
+                    <span>{user.city}</span>
+                    <p>{user.cellphone}</p>
+                  </Info>
+                </User>
+              </Link>
             ))}
           </Users>
         ) : (

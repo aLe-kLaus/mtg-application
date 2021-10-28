@@ -13,6 +13,8 @@ import { Sidebar } from "../components/Sidebar";
 type ContextProps = {
   isUserLogged: boolean;
   setIsUserLogged: React.Dispatch<SetStateAction<boolean>>;
+  userID: string;
+  setUserID: React.Dispatch<SetStateAction<string>>;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
   paddingLeft: string;
@@ -27,6 +29,8 @@ type ContextProps = {
 const defaultContextValues = {
   isUserLogged: false,
   setIsUserLogged: () => Boolean,
+  userID: "",
+  setUserID: () => String,
   isSidebarOpen: false,
   setIsSidebarOpen: () => Boolean,
   paddingLeft: "0px",
@@ -44,6 +48,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [isUserLogged, setIsUserLogged] = useState(
     defaultContextValues.isUserLogged
   );
+  const [userID, setUserID] = useState(defaultContextValues.userID);
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     defaultContextValues.isSidebarOpen
   );
@@ -66,6 +71,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         value={{
           isUserLogged,
           setIsUserLogged,
+          userID,
+          setUserID,
           isSidebarOpen,
           setIsSidebarOpen,
           paddingLeft,

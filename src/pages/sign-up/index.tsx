@@ -17,9 +17,11 @@ import cities from "../../JSON/cities.json";
 import states from "../../JSON/states.json";
 import { Select } from "../../components/Inputs/Select";
 import userServices from "../../services/userServices";
+import { ErrorModal } from "../../components/Modals/Error";
+import { SucessModal } from "../../components/Modals/Success";
 
 const SignUp = () => {
-  const { paddingLeft } = useContext(Context);
+  const { paddingLeft, setIsUserLogged, setUserID } = useContext(Context);
 
   const [showPass, setShowPass] = useState({ pass: false, confirmPass: false });
 
@@ -45,6 +47,10 @@ const SignUp = () => {
 
   const [favoriteCards, setFavoriteCards] = useState("");
   const [interests, setInterests] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const successMessage = "User Created Successfully";
 
   const handleShowPass = (value: boolean, input: string) => {
     if (input === "password") {
@@ -160,7 +166,11 @@ const SignUp = () => {
     };
     try {
       const response = await userServices.signUp(data);
-    } catch (error) {}
+      setShowSuccessModal(true);
+    } catch (error: any) {
+      setShowErrorModal(true);
+      setErrorMessage(error?.response.data.error);
+    }
   };
 
   const {
@@ -170,6 +180,12 @@ const SignUp = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    window.sessionStorage.removeItem("mtg-user-token");
+    setUserID("");
+    setIsUserLogged(false);
+  }, []);
 
   return (
     <Container style={{ paddingLeft }}>
@@ -456,6 +472,17 @@ const SignUp = () => {
           Do not have an account? <Link href="/sign-in">Login here!</Link>
         </p>
       </Form>
+      <ErrorModal
+        error={errorMessage}
+        show={showErrorModal}
+        setShow={setShowErrorModal}
+      />
+      <SucessModal
+        success={successMessage}
+        path="/sign-in"
+        pathText="Login Here"
+        show={showSuccessModal}
+      />
     </Container>
   );
 };

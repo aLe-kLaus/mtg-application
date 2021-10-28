@@ -70,6 +70,46 @@ export const Profile = styled.div`
   }
 `;
 
+export const EditIcon = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme.colors.black};
+  border: 2px solid ${(props) => props.theme.colors.white};
+  border-radius: 50%;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  cursor: pointer;
+  transition: 200ms ease-in;
+
+  :hover {
+    border: 2px solid ${(props) => props.theme.colors.purple};
+
+    svg {
+      color: ${(props) => props.theme.colors.purple};
+    }
+  }
+
+  svg {
+    color: ${(props) => props.theme.colors.white};
+    transition: 200ms ease-in;
+
+    :hover {
+      color: ${(props) => props.theme.colors.purple};
+    }
+  }
+
+  @media (max-width: 515px) {
+    right: 0;
+    bottom: 0;
+    top: 5px;
+    left: 5px;
+  }
+`;
+
 export const UserDescription = styled.div`
   display: flex;
   justify-content: space-between;

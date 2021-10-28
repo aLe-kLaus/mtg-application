@@ -11,10 +11,6 @@ export const Sidebar = (): JSX.Element => {
 
   const showSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  useEffect(() => {
-    setIsUserLogged(false);
-  });
-
   return (
     <Container>
       <div className="navbar">
@@ -24,19 +20,19 @@ export const Sidebar = (): JSX.Element => {
         <div className={`${isUserLogged ? "login-menu-logged" : "login-menu"}`}>
           {!isUserLogged ? (
             <React.Fragment>
-              <div className="sign-up">
-                <Link href="/sign-up">
+              <Link href="/sign-up">
+                <div className="sign-up">
                   <a>Sign Up</a>
-                </Link>
-              </div>
-              <div className="sign-in">
-                <Link href="/sign-in">
+                </div>
+              </Link>
+              <Link href="/sign-in">
+                <div className="sign-in">
                   <a>Sign In</a>
-                </Link>
-              </div>
+                </div>
+              </Link>
             </React.Fragment>
           ) : (
-            <Link href="/user-profile">
+            <Link href="/my-profile">
               <div className="logged-user">
                 <FaIcons.FaUser />
               </div>

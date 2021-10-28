@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -8,18 +8,19 @@ import { Button } from "../../components/Button";
 import { Context } from "../_app";
 import { Container, Form, InputContainer, PasswordContainer } from "./styles";
 import userServices from "../../services/userServices";
-import { ErrorModal } from "../../components/ErrorModal";
-import { useRouter } from "next/dist/client/router";
+import { ErrorModal } from "../../components/Modals/Error";
+import { SucessModal } from "../../components/Modals/Success";
 
 const SignIn = (): JSX.Element => {
-  const { route, paddingLeft } = useContext(Context);
+  const { route, paddingLeft, setUserID, setIsUserLogged } =
+    useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const successMessage = "Login Successful";
 
   const schema = yup
     .object()
@@ -56,13 +57,24 @@ const SignIn = (): JSX.Element => {
   const handleFormSubmit = async () => {
     const data = { email: email, password: password };
     try {
-      const response = await userServices.signIn(data);
-      router.push(route);
+      const response: any = await userServices.signIn(data);
+      console.log(
+        "🚀 ~ file: index.tsx ~ line 62 ~ handleFormSubmit ~ response",
+        response
+      );
+      setShowSuccessModal(true);
+      window.sessionStorage.setItem("mtg-user-token", response.data);
     } catch (error: any) {
       setShowErrorModal(true);
       setErrorMessage(error?.response.data.error);
     }
   };
+
+  useEffect(() => {
+    window.sessionStorage.removeItem("mtg-user-token");
+    setUserID("");
+    setIsUserLogged(false);
+  }, []);
 
   return (
     <Container style={{ paddingLeft }}>
@@ -128,6 +140,12 @@ const SignIn = (): JSX.Element => {
         error={errorMessage}
         show={showErrorModal}
         setShow={setShowErrorModal}
+      />
+      <SucessModal
+        success={successMessage}
+        path={route}
+        pathText="Redirect"
+        show={showSuccessModal}
       />
     </Container>
   );

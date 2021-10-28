@@ -16,7 +16,8 @@ const CustomGoogleMap = () => {
 const WrappedMap = withScriptjs(withGoogleMap(CustomGoogleMap));
 
 const PlayerNearby = () => {
-  const { paddingLeft, setLng, setLat } = useContext(Context);
+  const { paddingLeft, setLng, setLat, setIsUserLogged, setUserID } =
+    useContext(Context);
   const [currentCity, setCurrentCity] = useState({
     id: "882",
     name: "Brasília",
@@ -35,6 +36,13 @@ const PlayerNearby = () => {
     setCurrentCity(currentCity ?? { id: "79", name: "Acrelândia", state: "1" });
     getCityLatAndLong();
   };
+
+  useEffect(() => {
+    setIsUserLogged(
+      !!window.sessionStorage.getItem("mtg-user-token") as boolean
+    );
+    setUserID(window.sessionStorage.getItem("mtg-user-token") ?? "");
+  }, []);
 
   return (
     <Container style={{ paddingLeft }}>
