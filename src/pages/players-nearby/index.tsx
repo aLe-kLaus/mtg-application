@@ -37,13 +37,6 @@ const PlayerNearby = () => {
     getCityLatAndLong();
   };
 
-  useEffect(() => {
-    setIsUserLogged(
-      !!window.sessionStorage.getItem("mtg-user-token") as boolean
-    );
-    setUserID(window.sessionStorage.getItem("mtg-user-token") ?? "");
-  }, []);
-
   return (
     <Container style={{ paddingLeft }}>
       <SeachContainer>

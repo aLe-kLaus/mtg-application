@@ -13,26 +13,50 @@ import {
 } from "./styles";
 import cardService from "../../services/cardService";
 import { Title } from "../../components/Title";
-import { FaEdit } from "react-icons/fa";
 import { useRouter } from "next/dist/client/router";
+import userServices from "../../services/userServices";
 
 type CardProps = {
   name: string;
   imageUrl: string;
 };
 
+type UserProps = {
+  age: string;
+  cellphone: string;
+  city: string;
+  email: string;
+  estate: string;
+  favorite_cards: string;
+  id: string;
+  interests: string;
+  name: string;
+};
+
 type CardsProps = CardProps[];
 
-const UserProfile = (props: any): JSX.Element => {
-  const { paddingLeft, setIsUserLogged, setUserID, isUserLogged } =
-    useContext(Context);
+const UserProfile = (): JSX.Element => {
+  const { paddingLeft } = useContext(Context);
   const [favoriteCards, setFavoriteCards] = useState<CardsProps>([]);
+  const [user, setUser] = useState<UserProps>();
   const router = useRouter();
+  const { query } = router;
+  const userId = query.user;
 
-  const getFavoriteCards = () => {
+  const getUser = async () => {
+    try {
+      const response = await userServices.getUserById(userId as string);
+      setUser(response.data[0]);
+    } catch {}
+  };
+
+  const getFavoriteCards = async () => {
     const queryedFavoriteCards: string[] = [];
-    props.favoriteCardsFromApi.forEach((card: string) => {
-      queryedFavoriteCards.push(card.replace(" ", "_").toLocaleLowerCase());
+    const response: any = await userServices.getUserById(userId as string);
+    setUser(response.data[0]);
+    const favorite_cards = response.data[0]?.favorite_cards.split(";");
+    favorite_cards?.forEach((card: string) => {
+      queryedFavoriteCards.push(card.toLocaleLowerCase());
     });
 
     queryedFavoriteCards.forEach((card) => {
@@ -43,35 +67,26 @@ const UserProfile = (props: any): JSX.Element => {
   };
 
   useEffect(() => {
-    setIsUserLogged(
-      !!window.sessionStorage.getItem("mtg-user-token") as boolean
-    );
-    setUserID(window.sessionStorage.getItem("mtg-user-token") ?? "");
-
-    if (!isUserLogged) {
-      router.push("/sign-in");
-    }
-  }, []);
-  useEffect(() => {
-    getFavoriteCards();
+    getUser();
     setFavoriteCards([]);
-  }, []);
+    getFavoriteCards();
+  }, [query]);
 
   return (
     <Container style={{ paddingLeft }}>
       <Header>
         <Profile>
           <div>
-            <Title title="Alessom Klaus" color="#FFFFFF" />
-            <p>(51) 99999-9999</p>
-            <span> test@example.com</span>
+            <Title title={user?.name as string} color="#FFFFFF" />
+            <p>{user?.cellphone}</p>
+            <span>{user?.email}</span>
           </div>
-          <img src="/magic-card-back.jpg" />
+          <img src="/magic.jpg" />
         </Profile>
       </Header>
       <UserDescription>
         <FavoriteCards>
-          <Title title="My Favorite Cards" color="#000000" />
+          <Title title="Favorite Cards" color="#000000" />
           <div>
             {favoriteCards
               ?.sort((a, b) =>
@@ -96,26 +111,12 @@ const UserProfile = (props: any): JSX.Element => {
         </FavoriteCards>
         <Interests>
           <Title title="My Interests" color="#000000" />
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio
-            pellentesque diam volutpat commodo sed egestas egestas fringilla
-            phasellus. Risus viverra adipiscing at in tellus integer. Adipiscing
-            tristique risus nec feugiat in fermentum. Orci dapibus ultrices in
-            iaculis nunc sed. Est sit amet facilisis magna. Adipiscing elit ut
-            aliquam purus sit amet luctus venenatis lectus. Lorem ipsum dolor
-            sit amet consectetur adipiscing. Duis ut diam quam nulla porttitor
-            massa id neque aliquam. Aliquam sem et tortor consequat id porta.
-            Curabitur vitae nunc sed velit. Placerat vestibulum lectus mauris
-            ultrices eros in cursus turpis. Fermentum dui faucibus in ornare
-            quam. Parturient montes nascetur ridiculus mus mauris. Mauris nunc
-            congue nisi vitae. Est ante in nibh mauris cursus mattis.
-          </p>
+          <p>{user?.interests}</p>
         </Interests>
       </UserDescription>
       <TradeCards>
         <Title title="Cards To Trade/Sell" color="#000000" />
-        <ListCard>
+        {/* <ListCard>
           {props?.cardsToTrade
             ?.sort((a: string, b: string) =>
               a.toLowerCase() !== b.toLowerCase()
@@ -127,34 +128,10 @@ const UserProfile = (props: any): JSX.Element => {
             .map((card: string, index: number) => {
               return <li key={index}>{card}</li>;
             })}
-        </ListCard>
+        </ListCard> */}
       </TradeCards>
     </Container>
   );
-};
-
-UserProfile.getInitialProps = async () => {
-  const favoriteCardsFromApi = [
-    "Black Lotus",
-    "Lightning Bolt",
-    "Mox Diamond",
-    "Cerulean Drake",
-    "Drakuseth, Maw of Flames",
-    "Alalla",
-  ];
-  const cardsToTrade = [
-    "Black Lotus",
-    "Lightning Bolt",
-    "Mox Diamond",
-    "Cerulean Drake",
-    "Drakuseth, Maw of Flames",
-    "Alalalala",
-  ];
-
-  return {
-    favoriteCardsFromApi,
-    cardsToTrade,
-  };
 };
 
 export default UserProfile;

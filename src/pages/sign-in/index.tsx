@@ -58,12 +58,10 @@ const SignIn = (): JSX.Element => {
     const data = { email: email, password: password };
     try {
       const response: any = await userServices.signIn(data);
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 62 ~ handleFormSubmit ~ response",
-        response
-      );
       setShowSuccessModal(true);
-      window.sessionStorage.setItem("mtg-user-token", response.data);
+      localStorage.setItem("mtg-user-token", response.data);
+      setIsUserLogged(true);
+      setUserID(response.data);
     } catch (error: any) {
       setShowErrorModal(true);
       setErrorMessage(error?.response.data.error);
@@ -71,9 +69,18 @@ const SignIn = (): JSX.Element => {
   };
 
   useEffect(() => {
-    window.sessionStorage.removeItem("mtg-user-token");
+    localStorage.removeItem("mtg-user-token");
     setUserID("");
     setIsUserLogged(false);
+    document.addEventListener("keypress", (e) => {
+      if (
+        (e.code === "Enter" || e.code === "NumpadEnter") &&
+        password &&
+        email
+      ) {
+        handleFormSubmit();
+      }
+    });
   }, []);
 
   return (

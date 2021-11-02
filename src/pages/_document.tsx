@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Document, {
   Html,
   Main,
@@ -9,6 +9,8 @@ import Document, {
   DocumentContext,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import { useRouter } from "next/dist/client/router";
+import { Context } from "./_app";
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();

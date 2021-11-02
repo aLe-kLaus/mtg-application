@@ -182,7 +182,7 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    window.sessionStorage.removeItem("mtg-user-token");
+    localStorage.removeItem("mtg-user-token");
     setUserID("");
     setIsUserLogged(false);
   }, []);

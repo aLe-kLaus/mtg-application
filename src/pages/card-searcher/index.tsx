@@ -40,21 +40,8 @@ const CardSearcher = (): JSX.Element => {
         setUsers(response.data);
         setUsersNotFound(false);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
-
-  useEffect(() => {
-    setIsUserLogged(
-      !!window.sessionStorage.getItem("mtg-user-token") as boolean
-    );
-    setUserID(window.sessionStorage.getItem("mtg-user-token") ?? "");
-
-    if (!isUserLogged) {
-      router.push("/sign-in");
-    }
-  }, []);
 
   return (
     <Container style={{ paddingLeft }}>
@@ -69,9 +56,9 @@ const CardSearcher = (): JSX.Element => {
           <input
             type="text"
             name="cardSearcher"
-            placeholder="Search For Any Card"
             value={searchingCard}
             onChange={(evt) => setSearchingCard(evt.target.value)}
+            placeholder="Case Sensitive"
           />
           <Button label="Search" name="searchCard" onClick={handleSearch} />
         </SearchBar>
@@ -86,10 +73,10 @@ const CardSearcher = (): JSX.Element => {
         {!usersNotFound ? (
           <Users>
             {users.map((user: any, index) => (
-              <Link href={`/user-profile?user=${user.id}`}>
-                <User key={index}>
+              <Link href={`/user-profile?user=${user.id}`} key={index}>
+                <User>
                   <ProfilePicture>
-                    <img src="/magic-card-back.jpg" alt="profile-photo" />
+                    <img src="/magic.jpg" alt="profile-photo" />
                   </ProfilePicture>
                   <Info>
                     <strong>{user.name}</strong>
