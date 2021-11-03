@@ -15,6 +15,7 @@ import cardService from "../../services/cardService";
 import { Title } from "../../components/Title";
 import { useRouter } from "next/dist/client/router";
 import userServices from "../../services/userServices";
+import Link from "next/link";
 
 type CardProps = {
   name: string;
@@ -39,6 +40,7 @@ const UserProfile = (): JSX.Element => {
   const { paddingLeft } = useContext(Context);
   const [favoriteCards, setFavoriteCards] = useState<CardsProps>([]);
   const [user, setUser] = useState<UserProps>();
+  const [tradeCards, setTradeCards] = useState([]);
   const router = useRouter();
   const { query } = router;
   const userId = query.user;
@@ -48,6 +50,13 @@ const UserProfile = (): JSX.Element => {
       const response = await userServices.getUserById(userId as string);
       setUser(response.data[0]);
     } catch {}
+  };
+
+  const getTradeCards = async () => {
+    try {
+      const response = await userServices.getUserCards(userId as string);
+      setTradeCards(response.data);
+    } catch (err) {}
   };
 
   const getFavoriteCards = async () => {
@@ -70,6 +79,7 @@ const UserProfile = (): JSX.Element => {
     getUser();
     setFavoriteCards([]);
     getFavoriteCards();
+    getTradeCards();
   }, [query]);
 
   return (
@@ -116,8 +126,8 @@ const UserProfile = (): JSX.Element => {
       </UserDescription>
       <TradeCards>
         <Title title="Cards To Trade/Sell" color="#000000" />
-        {/* <ListCard>
-          {props?.cardsToTrade
+        <ListCard>
+          {tradeCards
             ?.sort((a: string, b: string) =>
               a.toLowerCase() !== b.toLowerCase()
                 ? a.toLowerCase() < b.toLowerCase()
@@ -125,10 +135,17 @@ const UserProfile = (): JSX.Element => {
                   : 1
                 : 0
             )
-            .map((card: string, index: number) => {
-              return <li key={index}>{card}</li>;
+            .map((card: any, index: number) => {
+              return (
+                <li key={index}>
+                  {card.name}
+                  <Link href={`user-card?id=${card.id}`}>
+                    <b>...more</b>
+                  </Link>
+                </li>
+              );
             })}
-        </ListCard> */}
+        </ListCard>
       </TradeCards>
     </Container>
   );

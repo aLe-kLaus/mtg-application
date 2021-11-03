@@ -43,14 +43,13 @@ const MyProfile = (): JSX.Element => {
   const [favoriteCards, setFavoriteCards] = useState<CardsProps>([]);
   const [user, setUser] = useState<UserProps>();
   const router = useRouter();
+  const [tradeCards, setTradeCards] = useState([]);
 
   const getUser = async () => {
     try {
       const response = await userServices.getUserById(userID);
       setUser(response.data[0]);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const getFavoriteCards = async () => {
@@ -67,6 +66,13 @@ const MyProfile = (): JSX.Element => {
         setFavoriteCards((prevState) => [...prevState, response.data.cards[0]]);
       });
     });
+  };
+
+  const getTradeCards = async () => {
+    try {
+      const response = await userServices.getUserCards(userID as string);
+      setTradeCards(response.data);
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -130,8 +136,8 @@ const MyProfile = (): JSX.Element => {
       </UserDescription>
       <TradeCards>
         <Title title="Cards To Trade/Sell" color="#000000" />
-        {/* <ListCard>
-          {props?.cardsToTrade
+        <ListCard>
+          {tradeCards
             ?.sort((a: string, b: string) =>
               a.toLowerCase() !== b.toLowerCase()
                 ? a.toLowerCase() < b.toLowerCase()
@@ -139,10 +145,17 @@ const MyProfile = (): JSX.Element => {
                   : 1
                 : 0
             )
-            .map((card: string, index: number) => {
-              return <li key={index}>{card}</li>;
+            .map((card: any, index: number) => {
+              return (
+                <li key={index}>
+                  {card.name}
+                  <Link href={`user-card?id=${card.id}`}>
+                    <b>...more</b>
+                  </Link>
+                </li>
+              );
             })}
-        </ListCard> */}
+        </ListCard>
       </TradeCards>
     </Container>
   );

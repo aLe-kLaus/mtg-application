@@ -2,7 +2,7 @@ import { userAPI } from "./apis";
 
 export default {
   async getUsersByCardName(card: string) {
-    const response = await userAPI.get(`/users/cards?card_name=${card}`);
+    const response = await userAPI.get(`/cards/users?card_name=${card}`);
     return response;
   },
 
@@ -13,6 +13,16 @@ export default {
 
   async getUserById(id: string) {
     const response = await userAPI.get(`/user?user_id=${id}`);
+    return response;
+  },
+
+  async getUserCards(id: string) {
+    const response = await userAPI.get(`/user/cards?user_id=${id}`);
+    return response;
+  },
+
+  async getCard(id: string) {
+    const response = await userAPI.get(`card?card_id=${id}`);
     return response;
   },
 

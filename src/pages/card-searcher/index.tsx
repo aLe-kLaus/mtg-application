@@ -18,8 +18,7 @@ import {
 } from "./styles";
 
 const CardSearcher = (): JSX.Element => {
-  const { paddingLeft, setUserID, setIsUserLogged, isUserLogged } =
-    useContext(Context);
+  const { paddingLeft } = useContext(Context);
   const [searchingCard, setSearchingCard] = useState("");
   const [searchedCard, setSearchedCard] = useState("");
   const [usersNotFound, setUsersNotFound] = useState(false);
