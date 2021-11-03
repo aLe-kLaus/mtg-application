@@ -92,6 +92,11 @@ export const Interests = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 50%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 
   p {
     margin-top: 10px;
@@ -107,7 +112,11 @@ export const FavoriteCards = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  width: 50%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 
   div {
     margin-top: 10px;
@@ -203,4 +212,11 @@ export const TradeCards = styled.div`
 
 export const ListCard = styled.ul`
   list-style-type: disc;
+
+  li {
+    font-size: 18px;
+    b {
+      cursor: pointer;
+    }
+  }
 `;

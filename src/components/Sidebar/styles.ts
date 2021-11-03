@@ -38,6 +38,7 @@ export const Container = styled.div`
 
     .logged-user {
       color: ${(props) => props.theme.colors.black};
+      position: relative;
 
       :hover {
         color: ${(props) => props.theme.colors.purple} !important;

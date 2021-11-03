@@ -9,6 +9,7 @@ import { GlobalStyle } from "../styles/globals";
 import { theme } from "../styles/theme";
 import { ThemeProvider } from "styled-components";
 import { Sidebar } from "../components/Sidebar";
+import { useRouter } from "next/dist/client/router";
 
 type ContextProps = {
   isUserLogged: boolean;
@@ -57,12 +58,15 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [route, setRoute] = useState(defaultContextValues.route);
   const paddingLeft = isSidebarOpen ? "250px" : "0px";
 
+  const router = useRouter();
   useEffect(() => {
     document.addEventListener("mousedown", (evt: any) => {
       if (!evt.target.classList.contains("sidebar-close")) {
         setIsSidebarOpen(false);
       }
     });
+    setIsUserLogged(!!localStorage.getItem("mtg-user-token") as boolean);
+    setUserID(localStorage.getItem("mtg-user-token") ?? "");
   }, []);
 
   return (

@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: absolute;
   display: flex;
   background-color: rgba(0, 0, 0, 0.2);
   align-items: center;
   justify-content: center;
+  top: 0;
 `;
 
 export const Modal = styled.div`

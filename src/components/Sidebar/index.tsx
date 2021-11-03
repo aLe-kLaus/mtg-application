@@ -1,13 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Context } from "../../pages/_app";
 import { Container } from "./styles";
+import { useRouter } from "next/dist/client/router";
 
 export const Sidebar = (): JSX.Element => {
-  const { isUserLogged, isSidebarOpen, setIsSidebarOpen, setIsUserLogged } =
-    useContext(Context);
+  const [isHovering, setIsHovering] = useState(false);
+  const {
+    isUserLogged,
+    isSidebarOpen,
+    setIsSidebarOpen,
+    setIsUserLogged,
+    setRoute,
+    setUserID,
+  } = useContext(Context);
+
+  const router = useRouter();
 
   const showSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -17,7 +27,11 @@ export const Sidebar = (): JSX.Element => {
         <div className="menu-bars sidebar-close">
           <FaIcons.FaBars onClick={showSidebar} />
         </div>
-        <div className={`${isUserLogged ? "login-menu-logged" : "login-menu"}`}>
+        <div
+          className={`${isUserLogged ? "login-menu-logged" : "login-menu"}`}
+          onMouseEnter={() => (isUserLogged ? setIsHovering(true) : null)}
+          onMouseLeave={() => (isUserLogged ? setIsHovering(false) : null)}
+        >
           {!isUserLogged ? (
             <React.Fragment>
               <Link href="/sign-up">
@@ -38,6 +52,31 @@ export const Sidebar = (): JSX.Element => {
               </div>
             </Link>
           )}
+          {isHovering && (
+            <div
+              onClick={() => {
+                setIsUserLogged(false);
+                setUserID("");
+                router.push("/sign-in");
+                localStorage.removeItem("mtg-token");
+                setIsHovering(false);
+              }}
+              style={{
+                position: "absolute",
+                width: 100,
+                height: 50,
+                background: "#d4d4d4",
+                right: 0,
+                top: "60px",
+                borderRadius: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Logout
+            </div>
+          )}
         </div>
       </div>
       <nav
@@ -53,19 +92,28 @@ export const Sidebar = (): JSX.Element => {
               <AiIcons.AiOutlineClose />
             </div>
           </li>
-          <li className="nav-text sidebar-close">
+          <li
+            className="nav-text sidebar-close"
+            onClick={() => setRoute("/home")}
+          >
             <Link href="/home">
               <a className="sidebar-close">Home</a>
             </Link>
           </li>
-          <li className="nav-text sidebar-close">
+          <li
+            className="nav-text sidebar-close"
+            onClick={() => setRoute("/players-nearby")}
+          >
             <Link href="/players-nearby">
               <a className="sidebar-close">Search For a Player</a>
             </Link>
           </li>
-          <li className="nav-text sidebar-close">
+          <li
+            className="nav-text sidebar-close"
+            onClick={() => setRoute("/card-searcher")}
+          >
             <Link href="/card-searcher">
-              <a className="sidebar-close">Card Searcher</a>
+              <a className="sidebar-close">Search for a card to Trade/Sell</a>
             </Link>
           </li>
         </ul>

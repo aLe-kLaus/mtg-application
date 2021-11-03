@@ -4,8 +4,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   width: 100%;
   transition: 350ms ease-in;
+  padding: 10px;
 
   @media (max-width: 1024px) {
     padding-left: 0px !important;
@@ -25,36 +27,6 @@ export const Form = styled.form`
   a {
     color: ${(props) => props.theme.colors.black};
     transition: 200ms ease-in;
-
-    :hover {
-      color: ${(props) => props.theme.colors.purple};
-    }
-  }
-`;
-
-export const SideBySide = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-
-  @media (max-width: 515px) {
-    flex-direction: column;
-  }
-`;
-
-export const PasswordContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-
-  svg {
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    margin-left: -30px;
-    transition: 100ms ease-in;
 
     :hover {
       color: ${(props) => props.theme.colors.purple};
@@ -98,23 +70,6 @@ export const InputContainer = styled.div`
     }
   }
 
-  textarea {
-    width: 100%;
-    max-width: 100%;
-    min-width: 200px;
-    height: 100px;
-    min-height: 200px;
-    border: 1px solid ${(props) => props.theme.colors.black};
-    outline: 0px;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 10px;
-
-    :focus {
-      border: 2px solid ${(props) => props.theme.colors.purple};
-    }
-  }
-
   label {
     font-weight: 500;
     font-size: 16px;
@@ -124,5 +79,17 @@ export const InputContainer = styled.div`
   h3 {
     font-size: 12px;
     margin-top: 10px;
+  }
+`;
+
+export const SideBySide = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  @media (max-width: 515px) {
+    flex-direction: column;
   }
 `;
