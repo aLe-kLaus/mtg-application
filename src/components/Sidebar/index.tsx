@@ -55,9 +55,9 @@ export const Sidebar = (): JSX.Element => {
           {isHovering && (
             <div
               onClick={() => {
+                router.push("/sign-in");
                 setIsUserLogged(false);
                 setUserID("");
-                router.push("/sign-in");
                 localStorage.removeItem("mtg-token");
                 setIsHovering(false);
               }}
@@ -72,6 +72,7 @@ export const Sidebar = (): JSX.Element => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                zIndex: 1000,
               }}
             >
               Logout

@@ -1,50 +1,89 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../_app";
-import { Container, MapContainer, SeachContainer } from "./styles";
+import { Container, SeachContainer } from "./styles";
 import locationService from "../../services/locationService";
 import cities from "../../JSON/cities.json";
 import { Select } from "../../components/Inputs/Select";
-import { GoogleMap } from "react-google-maps";
-import withScriptjs from "react-google-maps/lib/withScriptjs";
-import withGoogleMap from "react-google-maps/lib/withGoogleMap";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+  MarkerClusterer,
+} from "@react-google-maps/api";
+import { mapStyle } from "./map";
+import userServices from "../../services/userServices";
+import { useRouter } from "next/dist/client/router";
 
-const CustomGoogleMap = () => {
-  const { lat, lng } = useContext(Context);
-  return <GoogleMap defaultZoom={5} defaultCenter={{ lat, lng }}></GoogleMap>;
+const options = {
+  styles: mapStyle,
+  disableDefaultUI: true,
+  zoomControl: true,
 };
 
-const WrappedMap = withScriptjs(withGoogleMap(CustomGoogleMap));
+const libraries: [
+  "geometry" | "places" | "drawing" | "localContext" | "visualization"
+] = ["places"];
 
 const PlayerNearby = () => {
-  const { paddingLeft, setLng, setLat, setIsUserLogged, setUserID } =
-    useContext(Context);
-  const [currentCity, setCurrentCity] = useState({
-    id: "882",
-    name: "Brasília",
-    state: "7",
+  const { paddingLeft } = useContext(Context);
+  const router = useRouter();
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "AIzaSyAcUXNSeuYg4TVRcpMTgsxzzLY0A9YonSw",
+    libraries,
   });
 
-  const getCityLatAndLong = () => {
-    locationService.getCityLatAndLng(currentCity.name).then((response: any) => {
-      setLat(response.data.results[0].geometry.location.lat);
-      setLng(response.data.results[0].geometry.location.lng);
+  const [latLng, setLatLng] = useState({
+    lat: -15.826691,
+    lng: -47.921822,
+    latSpace: 0,
+    lngSpace: 0,
+  });
+  const [usersByCity, setUsersByCity] = useState([]);
+  const [zoom, setZoom] = useState(4);
+
+  if (loadError) return "load error";
+  if (!isLoaded) return "loading";
+
+  const handleChangeCity = async (id: string) => {
+    const currentCity = cities.find((city) => city.id == id);
+    const cityResponse: any = await locationService.getCityLatAndLng(
+      currentCity?.name as any
+    );
+    const cityData = cityResponse.data.results[0].geometry;
+    const lat = cityData.location.lat;
+    const lng = cityData.location.lng;
+    const latSpace =
+      cityData.bounds.northeast.lat - cityData.bounds.southwest.lat;
+    const lngSpace =
+      cityData.bounds.northeast.lng - cityData.bounds.southwest.lng;
+
+    setLatLng({
+      lat,
+      lng,
+      latSpace,
+      lngSpace,
     });
+
+    const usersResponse: any = await userServices.getUsersByCityName(
+      currentCity?.name as string
+    );
+    setUsersByCity(usersResponse?.data);
+    setZoom(12);
   };
 
-  const handleChangeCity = (id: string) => {
-    const currentCity = cities.find((city) => city.id == id);
-    setCurrentCity(currentCity ?? { id: "79", name: "Acrelândia", state: "1" });
-    getCityLatAndLong();
-  };
+  console.log(latLng);
+  console.log(usersByCity);
 
   return (
     <Container style={{ paddingLeft }}>
-      <SeachContainer>
+      <SeachContainer style={{ marginLeft: paddingLeft }}>
         <Select
           onChange={(evt) => handleChangeCity(evt.target.value)}
           id="city"
           name="city"
-          label="Select Your City"
+          label="Select Your City And Find Players Nearby You"
         >
           {cities
             .sort((a, b) => {
@@ -62,17 +101,39 @@ const PlayerNearby = () => {
             })}
         </Select>
       </SeachContainer>
-
-      <MapContainer>
-        <div style={{ width: "100%", height: 1500 }}>
-          <WrappedMap
-            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAcUXNSeuYg4TVRcpMTgsxzzLY0A9YonSw"
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `700px` }} />}
-            mapElement={<div style={{ height: `100%` }} />}
-          ></WrappedMap>
-        </div>
-      </MapContainer>
+      <GoogleMap
+        mapContainerStyle={{
+          width: "100%",
+          height: "100vh",
+        }}
+        zoom={zoom}
+        center={{ lat: latLng.lat, lng: latLng.lng }}
+        options={options}
+      >
+        {usersByCity.map((user: any, index) => {
+          const latMax = latLng.latSpace;
+          const latRandom = Math.random() * 0.3;
+          const userRandomLat = latLng.lat - latMax * latRandom;
+          const lngMax = latLng.lngSpace;
+          const lngRandom = Math.random() * 0.3;
+          const userRandomLng = latLng.lng - lngMax * lngRandom;
+          return (
+            <React.Fragment key={index}>
+              <Marker
+                position={{ lat: userRandomLat, lng: userRandomLng }}
+                icon={{
+                  url: "/player-icon.png",
+                  scaledSize: new window.google.maps.Size(40, 40),
+                }}
+                onClick={() => {
+                  router.push(`/user-profile?user=${user.id}`);
+                  console.log(user.id);
+                }}
+              />
+            </React.Fragment>
+          );
+        })}
+      </GoogleMap>
     </Container>
   );
 };

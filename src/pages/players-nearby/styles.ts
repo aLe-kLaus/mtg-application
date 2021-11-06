@@ -5,8 +5,10 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   transition: 350ms ease-in;
   flex-direction: column;
+  position: relative;
 
   @media (max-width: 1024px) {
     padding-left: 0px !important;
@@ -14,27 +16,30 @@ export const Container = styled.div`
 `;
 
 export const SeachContainer = styled.div`
-  width: 80%;
+  width: 400px;
   display: flex;
   padding: 10px;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  transition: 350ms ease-in;
 
-  @media (max-width: 1024px) {
-    width: 100%;
-  }
-`;
-
-export const MapContainer = styled.div`
-  width: 80%;
-  display: flex;
-
-  .gm-svpc,
-  .gm-style-mtc,
-  .gm-style-cc {
-    display: none;
+  div {
+    label {
+      font-weight: 700;
+    }
   }
 
   @media (max-width: 1024px) {
-    width: 100%;
+    width: 310px;
+    margin-left: 0px !important;
+
+    div {
+      label {
+        font-size: 14px;
+      }
+    }
   }
 `;
 

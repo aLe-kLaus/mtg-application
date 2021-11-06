@@ -127,15 +127,7 @@ const UserProfile = (): JSX.Element => {
       <TradeCards>
         <Title title="Cards To Trade/Sell" color="#000000" />
         <ListCard>
-          {tradeCards
-            ?.sort((a: string, b: string) =>
-              a.toLowerCase() !== b.toLowerCase()
-                ? a.toLowerCase() < b.toLowerCase()
-                  ? -1
-                  : 1
-                : 0
-            )
-            .map((card: any, index: number) => {
+          {tradeCards?.map((card: any, index: number) => {
               return (
                 <li key={index}>
                   {card.name}
