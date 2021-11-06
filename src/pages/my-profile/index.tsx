@@ -11,6 +11,7 @@ import {
   TradeCards,
   ListCard,
   EditIcon,
+  Info,
 } from "./styles";
 import cardService from "../../services/cardService";
 import { Title } from "../../components/Title";
@@ -79,6 +80,7 @@ const MyProfile = (): JSX.Element => {
     getUser();
     setFavoriteCards([]);
     getFavoriteCards();
+    getTradeCards();
   }, []);
 
   useEffect(() => {
@@ -93,11 +95,11 @@ const MyProfile = (): JSX.Element => {
     <Container style={{ paddingLeft }}>
       <Header>
         <Profile>
-          <div>
+          <Info>
             <Title title={user?.name as string} color="#FFFFFF" />
             <p>{user?.cellphone}</p>
             <span>{user?.email}</span>
-          </div>
+          </Info>
           <img src="/magic.jpg" />
         </Profile>
         <Link href="/add-new-card">

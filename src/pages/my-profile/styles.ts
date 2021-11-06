@@ -35,23 +35,31 @@ export const Header = styled.div`
   }
 `;
 
+export const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  div {
+    label {
+      margin: 0 !important;
+    }
+  }
+
+  p {
+    color: ${(props) => props.theme.colors.white};
+  }
+
+  span {
+    color: ${(props) => props.theme.colors.white};
+  }
+`;
+
 export const Profile = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: -30px;
 
-  div {
-    display: flex;
-    flex-direction: column;
-
-    p {
-      color: ${(props) => props.theme.colors.white};
-    }
-
-    span {
-      color: ${(props) => props.theme.colors.white};
-    }
-  }
   @media (max-width: 515px) {
     margin-bottom: -10px;
   }
@@ -67,46 +75,6 @@ export const Profile = styled.div`
       width: 120px;
       height: 120px;
     }
-  }
-`;
-
-export const EditIcon = styled.div`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => props.theme.colors.black};
-  border: 2px solid ${(props) => props.theme.colors.white};
-  border-radius: 50%;
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  cursor: pointer;
-  transition: 200ms ease-in;
-
-  :hover {
-    border: 2px solid ${(props) => props.theme.colors.purple};
-
-    svg {
-      color: ${(props) => props.theme.colors.purple};
-    }
-  }
-
-  svg {
-    color: ${(props) => props.theme.colors.white};
-    transition: 200ms ease-in;
-
-    :hover {
-      color: ${(props) => props.theme.colors.purple};
-    }
-  }
-
-  @media (max-width: 515px) {
-    right: 0;
-    bottom: 0;
-    top: 5px;
-    left: 5px;
   }
 `;
 
@@ -239,10 +207,11 @@ export const TradeCards = styled.div`
   display: flex;
   flex-direction: column;
 
-  label {
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+  div {
+    label {
+      font-size: 22px;
+      margin: 10px 0 !important;
+    }
   }
 
   @media (max-width: 1300px) {
@@ -254,9 +223,50 @@ export const ListCard = styled.ul`
   list-style-type: disc;
 
   li {
-    font-size: 18px;
+    text-transform: capitalize;
+    font-size: 20px;
     b {
       cursor: pointer;
     }
+  }
+`;
+
+export const EditIcon = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme.colors.black};
+  border: 2px solid ${(props) => props.theme.colors.white};
+  border-radius: 50%;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  cursor: pointer;
+  transition: 200ms ease-in;
+
+  :hover {
+    border: 2px solid ${(props) => props.theme.colors.purple};
+
+    svg {
+      color: ${(props) => props.theme.colors.purple};
+    }
+  }
+
+  svg {
+    color: ${(props) => props.theme.colors.white};
+    transition: 200ms ease-in;
+
+    :hover {
+      color: ${(props) => props.theme.colors.purple};
+    }
+  }
+
+  @media (max-width: 515px) {
+    right: 0;
+    bottom: 0;
+    top: 5px;
+    left: 5px;
   }
 `;

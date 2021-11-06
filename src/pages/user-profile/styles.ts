@@ -35,23 +35,31 @@ export const Header = styled.div`
   }
 `;
 
+export const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  div {
+    label {
+      margin: 0 !important;
+    }
+  }
+
+  p {
+    color: ${(props) => props.theme.colors.white};
+  }
+
+  span {
+    color: ${(props) => props.theme.colors.white};
+  }
+`;
+
 export const Profile = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: -30px;
 
-  div {
-    display: flex;
-    flex-direction: column;
-
-    p {
-      color: ${(props) => props.theme.colors.white};
-    }
-
-    span {
-      color: ${(props) => props.theme.colors.white};
-    }
-  }
   @media (max-width: 515px) {
     margin-bottom: -10px;
   }
@@ -199,10 +207,11 @@ export const TradeCards = styled.div`
   display: flex;
   flex-direction: column;
 
-  label {
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+  div {
+    label {
+      font-size: 22px;
+      margin: 10px 0 !important;
+    }
   }
 
   @media (max-width: 1300px) {
@@ -214,7 +223,8 @@ export const ListCard = styled.ul`
   list-style-type: disc;
 
   li {
-    font-size: 18px;
+    text-transform: capitalize;
+    font-size: 20px;
     b {
       cursor: pointer;
     }

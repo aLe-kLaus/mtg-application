@@ -45,7 +45,7 @@ const AddNewCard = () => {
   const handleRegister = async () => {
     const data: any = {
       id: userID,
-      name: name,
+      name: name.toLowerCase(),
       condition: condition,
       set: cardSet,
       price: price,
@@ -92,7 +92,6 @@ const AddNewCard = () => {
             }}
             name="name"
             type="text"
-            placeholder="Case Sensitive"
           />
         </InputContainer>
         <SideBySide>
@@ -100,7 +99,7 @@ const AddNewCard = () => {
             onChange={(evt) => setCondtion(evt.target.value)}
             id="state"
             name="state"
-            label="Select Your State"
+            label="Select Card Condition"
           >
             {conditions.map((c) => {
               return (
