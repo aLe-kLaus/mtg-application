@@ -82,9 +82,11 @@ const MyProfile = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (!isUserLogged) {
-      router.push("/sign-in");
-    }
+    setTimeout(() => {
+      if (!isUserLogged) {
+        router.push("/sign-in");
+      }
+    }, 200);
   }, []);
 
   return (
