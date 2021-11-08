@@ -13,24 +13,28 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: flex-end;
-  width: 80%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 30px;
-  margin-top: 20px;
-  background-color: ${(props) => props.theme.colors.black};
-  border: 2px solid ${(props) => props.theme.colors.white};
-  border-radius: 12px;
-  position: relative;
+  gap: 10px;
+  margin-top: 40px;
 
-  @media (max-width: 1300px) {
-    width: 95%;
+  strong {
+    font-size: 38px;
+    font-weight: 600;
+    font-family: monospace;
   }
+  div {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 
-  @media (max-width: 515px) {
-    height: 140px;
+    @media (max-width: 470px) {
+      flex-direction: column;
+    }
+    img {
+      width: 75px;
+      height: 75px;
+    }
   }
 `;
