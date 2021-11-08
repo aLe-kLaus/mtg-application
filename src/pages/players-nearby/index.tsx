@@ -4,13 +4,7 @@ import { Container, SeachContainer } from "./styles";
 import locationService from "../../services/locationService";
 import cities from "../../JSON/cities.json";
 import { Select } from "../../components/Inputs/Select";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-  MarkerClusterer,
-} from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { mapStyle } from "./map";
 import userServices from "../../services/userServices";
 import { useRouter } from "next/dist/client/router";
@@ -73,9 +67,6 @@ const PlayerNearby = () => {
     setZoom(12);
   };
 
-  console.log(latLng);
-  console.log(usersByCity);
-
   return (
     <Container style={{ paddingLeft }}>
       <SeachContainer style={{ marginLeft: paddingLeft }}>
@@ -118,19 +109,17 @@ const PlayerNearby = () => {
           const lngRandom = Math.random() * 0.3;
           const userRandomLng = latLng.lng - lngMax * lngRandom;
           return (
-            <React.Fragment key={index}>
-              <Marker
-                position={{ lat: userRandomLat, lng: userRandomLng }}
-                icon={{
-                  url: "/player-icon.png",
-                  scaledSize: new window.google.maps.Size(40, 40),
-                }}
-                onClick={() => {
-                  router.push(`/user-profile?user=${user.id}`);
-                  console.log(user.id);
-                }}
-              />
-            </React.Fragment>
+            <Marker
+              key={index}
+              position={{ lat: userRandomLat, lng: userRandomLng }}
+              icon={{
+                url: "/player-icon.png",
+                scaledSize: new window.google.maps.Size(40, 40),
+              }}
+              onClick={() => {
+                router.push(`/user-profile?user=${user.id}`);
+              }}
+            />
           );
         })}
       </GoogleMap>

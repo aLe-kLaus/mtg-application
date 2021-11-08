@@ -93,30 +93,31 @@ export const Users = styled.div`
 export const User = styled.div`
   display: flex;
   width: 250px;
-  height: 300px;
+  height: 350px;
   border: 1px solid black;
   border-radius: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  cursor: pointer;
+  position: relative;
 `;
 
 export const ProfilePicture = styled.div`
   width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  height: 200px;
+  border-radius: 10px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid black;
+  cursor: pointer;
 
   img {
     width: 140px;
-    height: 140px;
-    border-radius: 50%;
+    height: 190px;
+    cursor: pointer;
   }
 `;
 
@@ -128,6 +129,7 @@ export const Info = styled.div`
   strong {
     font-size: 20px;
     text-align: center;
+    cursor: pointer;
   }
 
   p {
@@ -138,5 +140,18 @@ export const Info = styled.div`
   span {
     font-size: 16px;
     text-align: center;
+  }
+`;
+
+export const Favorite = styled.div`
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  right: 0;
+
+  svg {
+    width: 25px;
+    height: 25px;
   }
 `;

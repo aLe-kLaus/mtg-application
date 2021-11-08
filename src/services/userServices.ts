@@ -1,6 +1,7 @@
 import { userAPI } from "./apis";
 
 export default {
+  // GET
   async getUsersByCardName(card: string) {
     const response = await userAPI.get(`/cards/users?card_name=${card}`);
     return response;
@@ -22,10 +23,21 @@ export default {
   },
 
   async getCard(id: string) {
-    const response = await userAPI.get(`card?card_id=${id}`);
+    const response = await userAPI.get(`/card?card_id=${id}`);
     return response;
   },
 
+  async getFavoriteCards(userId: string) {
+    const response = await userAPI.get(`/user/favoriteCards?user_id=${userId}`);
+    return response;
+  },
+
+  async getSeachedCard(card_name: string) {
+    const response = await userAPI.get(`/allCards?card_name=${card_name}`);
+    return response;
+  },
+
+  //POST
   async signIn(data: any) {
     const response = await userAPI.post(`/login`, {
       email: data.email,
@@ -61,6 +73,22 @@ export default {
       complement: data.complement,
     });
 
+    return response;
+  },
+  async createFavoriteCard(user_id: string, card_id: string) {
+    const response = await userAPI.post(`/favoriteCards`, {
+      user_favorites: user_id,
+      favorite_cards: card_id,
+    });
+
+    return response;
+  },
+
+  //DELETE
+  async deleteFavoriteCard(user_id: string, card_id: string) {
+    const response = await userAPI.delete(
+      `/favoriteCards?card_id=${card_id}&user_id=${user_id}`
+    );
     return response;
   },
 };

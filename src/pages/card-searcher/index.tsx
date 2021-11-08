@@ -1,8 +1,9 @@
-import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Button } from "../../components/Button";
 import { Title } from "../../components/Title";
+import cardService from "../../services/cardService";
 import userServices from "../../services/userServices";
 import { Context } from "../_app";
 import {
@@ -15,32 +16,68 @@ import {
   ProfilePicture,
   Users,
   Info,
+  Favorite,
 } from "./styles";
 
 const CardSearcher = (): JSX.Element => {
-  const { paddingLeft } = useContext(Context);
+  const { paddingLeft, isUserLogged, userID } = useContext(Context);
   const [searchingCard, setSearchingCard] = useState("");
   const [searchedCard, setSearchedCard] = useState("");
   const [usersNotFound, setUsersNotFound] = useState(false);
-  const [users, setUsers] = useState([]);
-
-  const router = useRouter();
+  const [userFavoriteCards, setUserFavoriteCards] = useState<any>([]);
+  const [cardInfo, setCardInfo] = useState<any>({});
+  const [cards, setCards] = useState([]);
 
   const handleSearch = async () => {
     setSearchedCard(searchingCard);
     try {
-      const response: any = await userServices.getUsersByCardName(
-        searchingCard
+      const response: any = await userServices.getSeachedCard(
+        searchingCard.toLowerCase()
       );
       if (response?.data?.length === 0) {
-        setUsers([]);
+        setCards([]);
         setUsersNotFound(true);
       } else {
-        setUsers(response.data);
+        setCards(response.data);
         setUsersNotFound(false);
+        getCardImage(searchingCard.toLowerCase());
       }
     } catch (error) {}
   };
+
+  const getCardImage = async (cardName: string) => {
+    try {
+      const cardResponse: any = await cardService.getCardsByName(cardName);
+      setCardInfo(cardResponse.data.cards[0]);
+    } catch (err) {}
+  };
+
+  const getUserFavoriteCards = async () => {
+    if (userID) {
+      try {
+        const response = await userServices.getFavoriteCards(userID);
+        setUserFavoriteCards(response.data);
+      } catch {}
+    }
+  };
+
+  const addFavoriteCard = async (card_id: string) => {
+    try {
+      const response = await userServices.createFavoriteCard(userID, card_id);
+      getUserFavoriteCards();
+    } catch {}
+  };
+
+  const deleteFavoriteCard = async (card_id: string) => {
+    try {
+      const response = await userServices.deleteFavoriteCard(userID, card_id);
+      getUserFavoriteCards();
+    } catch {}
+  };
+
+  useEffect(() => {
+    getUserFavoriteCards();
+  }, []);
 
   return (
     <Container style={{ paddingLeft }}>
@@ -57,34 +94,73 @@ const CardSearcher = (): JSX.Element => {
             name="cardSearcher"
             value={searchingCard}
             onChange={(evt) => setSearchingCard(evt.target.value)}
-            placeholder="Case Sensitive"
           />
           <Button label="Search" name="searchCard" onClick={handleSearch} />
         </SearchBar>
       </SearchContainer>
       <UsersContainer>
-        {!usersNotFound && users.length > 0 && (
+        {!usersNotFound && cards.length > 0 && (
           <Title
-            title="This are the users that are willing to trade/sell"
+            title={`All of the ${searchedCard} available!`}
             color="#000000"
           />
         )}
         {!usersNotFound ? (
           <Users>
-            {users.map((user: any, index) => (
-              <Link href={`/user-profile?user=${user.id}`} key={index}>
-                <User>
-                  <ProfilePicture>
-                    <img src="/magic.jpg" alt="profile-photo" />
-                  </ProfilePicture>
+            {cards.map((card: any, index) => {
+              return (
+                <User key={index}>
+                  <Link href={`/user-card?id=${card.id}`} key={index}>
+                    <ProfilePicture>
+                      <img
+                        src={cardInfo?.imageUrl ?? "/magic-card-back.jpg"}
+                        alt=""
+                      />
+                    </ProfilePicture>
+                  </Link>
                   <Info>
-                    <strong>{user.name}</strong>
-                    <span>{user.city}</span>
-                    <p>{user.cellphone}</p>
+                    <Link href={`/user-card?id=${card.id}`} key={index}>
+                      <strong style={{ textTransform: "capitalize" }}>
+                        {card.name}
+                      </strong>
+                    </Link>
+                    <span>{card.condition}</span>
+                    <p>R$ {card.price}</p>
+                    <p>
+                      Go to card{" "}
+                      <Link
+                        href={`/user-profile?user=${card.user_cards}`}
+                        key={index}
+                      >
+                        <b
+                          style={{
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Owner
+                        </b>
+                      </Link>
+                    </p>
                   </Info>
+                  {isUserLogged && (
+                    <Favorite>
+                      {userFavoriteCards?.find(
+                        (fav: any) => fav.favorite_cards === card.id
+                      ) ? (
+                        <AiFillHeart
+                          onClick={() => deleteFavoriteCard(card.id)}
+                        />
+                      ) : (
+                        <AiOutlineHeart
+                          onClick={() => addFavoriteCard(card.id)}
+                        />
+                      )}
+                    </Favorite>
+                  )}
                 </User>
-              </Link>
-            ))}
+              );
+            })}
           </Users>
         ) : (
           <Title

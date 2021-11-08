@@ -170,4 +170,18 @@ export const Container = styled.div`
     justify-content: flex-start;
     align-items: center;
   }
+
+  .fav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fav-item svg {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    margin-right: 20px;
+    cursor: pointer;
+  }
 `;

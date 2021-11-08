@@ -10,6 +10,7 @@ import {
   Interests,
   TradeCards,
   ListCard,
+  Info,
 } from "./styles";
 import cardService from "../../services/cardService";
 import { Title } from "../../components/Title";
@@ -86,11 +87,11 @@ const UserProfile = (): JSX.Element => {
     <Container style={{ paddingLeft }}>
       <Header>
         <Profile>
-          <div>
+          <Info>
             <Title title={user?.name as string} color="#FFFFFF" />
             <p>{user?.cellphone}</p>
             <span>{user?.email}</span>
-          </div>
+          </Info>
           <img src="/magic.jpg" />
         </Profile>
       </Header>
@@ -128,15 +129,15 @@ const UserProfile = (): JSX.Element => {
         <Title title="Cards To Trade/Sell" color="#000000" />
         <ListCard>
           {tradeCards?.map((card: any, index: number) => {
-              return (
-                <li key={index}>
-                  {card.name}
-                  <Link href={`user-card?id=${card.id}`}>
-                    <b>...more</b>
-                  </Link>
-                </li>
-              );
-            })}
+            return (
+              <li key={index}>
+                {card.name}
+                <Link href={`user-card?id=${card.id}`}>
+                  <b>...more</b>
+                </Link>
+              </li>
+            );
+          })}
         </ListCard>
       </TradeCards>
     </Container>
