@@ -112,25 +112,17 @@ const MyProfile = (): JSX.Element => {
         <FavoriteCards>
           <Title title="My Favorite Cards" color="#000000" />
           <div>
-            {favoriteCards
-              ?.sort((a, b) =>
-                a?.name.toLowerCase() !== b?.name.toLowerCase()
-                  ? a?.name.toLowerCase() < b?.name.toLowerCase()
-                    ? -1
-                    : 1
-                  : 0
-              )
-              .map((card, index) => {
-                return (
-                  <CardImage
-                    key={index}
-                    src={card?.imageUrl ?? "/magic-card-back.jpg"}
-                    style={{
-                      zIndex: index,
-                    }}
-                  />
-                );
-              })}
+            {favoriteCards?.map((card, index) => {
+              return (
+                <CardImage
+                  key={index}
+                  src={card?.imageUrl ?? "/magic-card-back.jpg"}
+                  style={{
+                    zIndex: index,
+                  }}
+                />
+              );
+            })}
           </div>
         </FavoriteCards>
         <Interests>
@@ -141,24 +133,16 @@ const MyProfile = (): JSX.Element => {
       <TradeCards>
         <Title title="Cards To Trade/Sell" color="#000000" />
         <ListCard>
-          {tradeCards
-            ?.sort((a: string, b: string) =>
-              a.toLowerCase() !== b.toLowerCase()
-                ? a.toLowerCase() < b.toLowerCase()
-                  ? -1
-                  : 1
-                : 0
-            )
-            .map((card: any, index: number) => {
-              return (
-                <li key={index}>
-                  {card.name}
-                  <Link href={`user-card?id=${card.id}`}>
-                    <b>...more</b>
-                  </Link>
-                </li>
-              );
-            })}
+          {tradeCards?.map((card: any, index: number) => {
+            return (
+              <li key={index}>
+                {card.name}
+                <Link href={`user-card?id=${card.id}`}>
+                  <b>...more</b>
+                </Link>
+              </li>
+            );
+          })}
         </ListCard>
       </TradeCards>
     </Container>

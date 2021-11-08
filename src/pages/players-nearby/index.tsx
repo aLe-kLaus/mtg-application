@@ -4,13 +4,7 @@ import { Container, SeachContainer } from "./styles";
 import locationService from "../../services/locationService";
 import cities from "../../JSON/cities.json";
 import { Select } from "../../components/Inputs/Select";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-  MarkerClusterer,
-} from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { mapStyle } from "./map";
 import userServices from "../../services/userServices";
 import { useRouter } from "next/dist/client/router";

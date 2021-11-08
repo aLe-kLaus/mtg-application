@@ -27,57 +27,68 @@ export const Sidebar = (): JSX.Element => {
         <div className="menu-bars sidebar-close">
           <FaIcons.FaBars onClick={showSidebar} />
         </div>
-        <div
-          className={`${isUserLogged ? "login-menu-logged" : "login-menu"}`}
-          onMouseEnter={() => (isUserLogged ? setIsHovering(true) : null)}
-          onMouseLeave={() => (isUserLogged ? setIsHovering(false) : null)}
-        >
-          {!isUserLogged ? (
-            <React.Fragment>
-              <Link href="/sign-up">
-                <div className="sign-up">
-                  <a>Sign Up</a>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {isUserLogged && (
+            <div>
+              <Link href="/my-favorite-cards">
+                <div className="fav-item">
+                  <FaIcons.FaHeart />
                 </div>
               </Link>
-              <Link href="/sign-in">
-                <div className="sign-in">
-                  <a>Sign In</a>
-                </div>
-              </Link>
-            </React.Fragment>
-          ) : (
-            <Link href="/my-profile">
-              <div className="logged-user">
-                <FaIcons.FaUser />
-              </div>
-            </Link>
-          )}
-          {isHovering && (
-            <div
-              onClick={() => {
-                router.push("/sign-in");
-                setIsUserLogged(false);
-                setUserID("");
-                localStorage.removeItem("mtg-token");
-                setIsHovering(false);
-              }}
-              style={{
-                position: "absolute",
-                width: 100,
-                height: 50,
-                background: "#d4d4d4",
-                right: 0,
-                top: "60px",
-                borderRadius: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-              }}
-            >
-              Logout
             </div>
           )}
+          <div
+            className={`${isUserLogged ? "login-menu-logged" : "login-menu"}`}
+            onMouseEnter={() => (isUserLogged ? setIsHovering(true) : null)}
+            onMouseLeave={() => (isUserLogged ? setIsHovering(false) : null)}
+          >
+            {!isUserLogged ? (
+              <React.Fragment>
+                <Link href="/sign-up">
+                  <div className="sign-up">
+                    <a>Sign Up</a>
+                  </div>
+                </Link>
+                <Link href="/sign-in">
+                  <div className="sign-in">
+                    <a>Sign In</a>
+                  </div>
+                </Link>
+              </React.Fragment>
+            ) : (
+              <Link href="/my-profile">
+                <div className="logged-user">
+                  <FaIcons.FaUser />
+                </div>
+              </Link>
+            )}
+            {isHovering && (
+              <div
+                onClick={() => {
+                  router.push("/sign-in");
+                  setIsUserLogged(false);
+                  setUserID("");
+                  localStorage.removeItem("mtg-token");
+                  setIsHovering(false);
+                }}
+                style={{
+                  position: "absolute",
+                  width: 100,
+                  height: 50,
+                  background: "#d4d4d4",
+                  right: 0,
+                  top: "60px",
+                  borderRadius: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  zIndex: 1000,
+                }}
+              >
+                Logout
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <nav

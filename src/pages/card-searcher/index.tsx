@@ -25,10 +25,6 @@ const CardSearcher = (): JSX.Element => {
   const [searchedCard, setSearchedCard] = useState("");
   const [usersNotFound, setUsersNotFound] = useState(false);
   const [userFavoriteCards, setUserFavoriteCards] = useState<any>([]);
-  console.log(
-    "🚀 ~ file: index.tsx ~ line 28 ~ userFavoriteCards",
-    userFavoriteCards
-  );
   const [cardInfo, setCardInfo] = useState<any>({});
   const [cards, setCards] = useState([]);
 
@@ -68,10 +64,6 @@ const CardSearcher = (): JSX.Element => {
   const addFavoriteCard = async (card_id: string) => {
     try {
       const response = await userServices.createFavoriteCard(userID, card_id);
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 67 ~ addFavoriteCard ~ response",
-        response
-      );
       getUserFavoriteCards();
     } catch {}
   };
@@ -79,10 +71,6 @@ const CardSearcher = (): JSX.Element => {
   const deleteFavoriteCard = async (card_id: string) => {
     try {
       const response = await userServices.deleteFavoriteCard(userID, card_id);
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 82 ~ deleteFavoriteCard ~ response",
-        response
-      );
       getUserFavoriteCards();
     } catch {}
   };
@@ -122,10 +110,7 @@ const CardSearcher = (): JSX.Element => {
             {cards.map((card: any, index) => {
               return (
                 <User key={index}>
-                  <Link
-                    href={`/user-profile?user=${card.user_cards}`}
-                    key={index}
-                  >
+                  <Link href={`/user-card?id=${card.id}`} key={index}>
                     <ProfilePicture>
                       <img
                         src={cardInfo?.imageUrl ?? "/magic-card-back.jpg"}
@@ -134,10 +119,7 @@ const CardSearcher = (): JSX.Element => {
                     </ProfilePicture>
                   </Link>
                   <Info>
-                    <Link
-                      href={`/user-profile?user=${card.user_cards}`}
-                      key={index}
-                    >
+                    <Link href={`/user-card?id=${card.id}`} key={index}>
                       <strong style={{ textTransform: "capitalize" }}>
                         {card.name}
                       </strong>
@@ -145,7 +127,7 @@ const CardSearcher = (): JSX.Element => {
                     <span>{card.condition}</span>
                     <p>R$ {card.price}</p>
                     <p>
-                      Go to this{" "}
+                      Go to card{" "}
                       <Link
                         href={`/user-profile?user=${card.user_cards}`}
                         key={index}
@@ -156,7 +138,7 @@ const CardSearcher = (): JSX.Element => {
                             cursor: "pointer",
                           }}
                         >
-                          User
+                          Owner
                         </b>
                       </Link>
                     </p>
